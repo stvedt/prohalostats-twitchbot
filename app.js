@@ -8,7 +8,55 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var data = require('./data/channels');
+console.log(data);
+
 var app = express();
+
+var TWITCH_OAUTH_KEY = require('./keys/twitch');
+
+//Twitch Bot
+
+// Do NOT include this line if you are using the built js version!
+var irc = require("tmi.js");
+
+var options = {
+    options: {
+        debug: true
+    },
+    connection: {
+        random: "chat",
+        reconnect: true
+    },
+    identity: {
+        username: "prohaloscrims",
+        password: TWITCH_OAUTH_KEY
+    },
+    channels: ["#norwegiansven"]
+};
+
+var client = new irc.client(options);
+
+client.on("chat", function(channel, user, message, self) {
+    // Make sure the message is not from the bot..
+    if (!self) {
+        var split = message.toLowerCase().split(" ");
+
+        switch (split[0]) {
+            case "!series":
+                //
+                client.say("norwegiansven", "Your message");
+                break;
+            case "!newscrim":
+                console.log(split);
+                //
+                break;
+        }
+    }
+});
+
+// Connect the client to the server..
+client.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
