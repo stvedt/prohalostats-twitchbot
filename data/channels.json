@@ -1,15 +1,17 @@
 {
-    "channelName":"NorwegianSven",
-    "team": "EnVyUs",
-    "currentScrim": {
-        "opponent": "CLG",
-        "wins": 0,
-        "losses": 0
-    },
-    "pastScrims":[{
-        "opponent": "CLG",
-        "wins": 0,
-        "losses": 0
-    }]
-
+    "norwegiansven": {
+        "team": "EnVyUs",
+        "currentScrim": {
+            "opponent": "CLG",
+            "wins": 5,
+            "losses": 0
+        },
+        "pastScrims": [
+            {
+                "opponent": "CLG",
+                "wins": 0,
+                "losses": 0
+            }
+        ]
+    }
 }
