@@ -66,8 +66,18 @@ client.on("chat", function(channel, user, message, self) {
                 updateDataFile(data);
                 break;
             case "!newseries":
-                console.log(channel);
-                console.log(split);
+                if(data[justChannel].currentScrim.archived == false ){
+                  data[justChannel].pastScrims.push(data[justChannel].currentScrim);
+                  var newOpponentName = message.substring(10);
+                  data[justChannel].currentScrim.opponent = newOpponentName;
+                  data[justChannel].currentScrim.wins = 0;
+                  data[justChannel].currentScrim.losses = 0;
+                  //data[justChannel].currentScrim.archived = true;
+                } else {
+
+                }
+                updateDataFile(data);
+                //console.log(split);
                 //
                 break;
             case "!score":
