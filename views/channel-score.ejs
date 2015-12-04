@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+    body { text-align: center; color: #ccc;}
+    h1,h2,p { margin: 0; }
+    p{line-height: 10px;}
+    </style>
+  </head>
+  <body>
+    <h1>
+        <span class="wins"><%= currentScrim.wins %></span>
+         -
+        <span class="losses"><%= currentScrim.losses %></span>
+    </h1>
+    <p>vs.</p>
+    <h2 class="opponent"><%= currentScrim.opponent %></h2>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).on('ready',function(){
+
+            var $body = $('body');
+            var $wins = $body.find('.wins');
+            var $losses = $body.find('.losses')
+            var $opponent = $body.find('.opponent')
+            var getUrl = window.location.href + '/get/'
+
+            function updateScore(){
+                $.ajax({
+                    url: getUrl,
+                    dataType:"JSON"
+                }).done(function(data) {
+                    console.log(data);
+                    $wins.text(data.currentScrim.wins);
+                    $losses.text(data.currentScrim.losses);
+                    $opponent.text(data.currentScrim.opponent);
+
+                });
+            }
+
+            setInterval( updateScore, 2000);
+
+        });
+    </script>
+  </body>
+</html>
