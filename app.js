@@ -105,8 +105,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/bot', routes);
-app.use('/channel', channelRoutes);
+app.use('/bot', indexRoutes);
+app.use('/bot/channel', channelRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
