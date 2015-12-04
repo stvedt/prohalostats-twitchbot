@@ -4,9 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var indexRoutes = require('./routes/index');
+var channelRoutes = require('./routes/channels');
 
 var data = require('./data/channels');
 console.log(data);
@@ -16,6 +17,9 @@ var app = express();
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
 //Twitch Bot
+function updateDataFile( updatedData ){
+  fs.writeFile('./data/channels.json', JSON.stringify(updatedData, null, 4));
+}
 
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
@@ -39,18 +43,49 @@ var client = new irc.client(options);
 
 client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
+    var justChannel = channel.substring(1);
     if (!self) {
         var split = message.toLowerCase().split(" ");
 
         switch (split[0]) {
             case "!series":
                 //
-                client.say("norwegiansven", "Your message");
+                console.log(data[justChannel].team);
+                client.say(channel, "Your message");
                 break;
-            case "!newscrim":
-                console.log(split);
+            case "!win":
+                //
+                client.say(channel, "win logged");
+                data[justChannel].currentScrim.wins++;
+                updateDataFile(data);
+                break;
+            case "!loss":
+                //
+                client.say(channel, "loss logged");
+                data[justChannel].currentScrim.losses++;
+                updateDataFile(data);
+                break;
+            case "!newseries":
+                if(data[justChannel].currentScrim.archived == false ){
+                  data[justChannel].pastScrims.push(data[justChannel].currentScrim);
+                  var newOpponentName = message.substring(10);
+                  data[justChannel].currentScrim.opponent = newOpponentName;
+                  data[justChannel].currentScrim.wins = 0;
+                  data[justChannel].currentScrim.losses = 0;
+                  //data[justChannel].currentScrim.archived = true;
+                } else {
+
+                }
+                updateDataFile(data);
+                //console.log(split);
                 //
                 break;
+            case "!score":
+                var scoreString = data[justChannel].team + ':' +
+                                  data[justChannel].currentScrim.wins + ' | ' +
+                                  data[justChannel].currentScrim.opponent + ':' +
+                                  data[justChannel].currentScrim.losses;
+                client.say(channel, scoreString);
         }
     }
 });
@@ -71,7 +106,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/bot', routes);
-app.use('/users', users);
+app.use('/channel', channelRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
