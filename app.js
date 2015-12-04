@@ -48,11 +48,6 @@ client.on("chat", function(channel, user, message, self) {
         var split = message.toLowerCase().split(" ");
 
         switch (split[0]) {
-            case "!series":
-                //
-                console.log(data[justChannel].team);
-                client.say(channel, "Your message");
-                break;
             case "!win":
                 //
                 client.say(channel, "win logged");
@@ -67,25 +62,42 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!newseries":
                 if(data[justChannel].currentScrim.archived == false ){
-                  data[justChannel].pastScrims.push(data[justChannel].currentScrim);
-                  var newOpponentName = message.substring(10);
-                  data[justChannel].currentScrim.opponent = newOpponentName;
-                  data[justChannel].currentScrim.wins = 0;
-                  data[justChannel].currentScrim.losses = 0;
-                  //data[justChannel].currentScrim.archived = true;
-                } else {
-
+                    data[justChannel].pastScrims.push(data[justChannel].currentScrim);
+                    data[justChannel].currentScrim.archived = true;
                 }
+
+                var newOpponentName = message.substring(10);
+                data[justChannel].currentScrim.opponent = newOpponentName;
+                data[justChannel].currentScrim.wins = 0;
+                data[justChannel].currentScrim.losses = 0;
+                data[justChannel].currentScrim.archived = false;
                 updateDataFile(data);
                 //console.log(split);
                 //
                 break;
+
+            case "!finishseries":
+                if(data[justChannel].currentScrim.archived == false ){
+                  data[justChannel].pastScrims.push(data[justChannel].currentScrim);
+                  data[justChannel].currentScrim.archived = true;
+                  updateDataFile(data);
+                }
+                break;
             case "!score":
-                var scoreString = data[justChannel].team + ':' +
-                                  data[justChannel].currentScrim.wins + ' | ' +
-                                  data[justChannel].currentScrim.opponent + ':' +
-                                  data[justChannel].currentScrim.losses;
-                client.say(channel, scoreString);
+                if(data[justChannel].currentScrim.archived == false ){
+                    var scoreString = data[justChannel].team + ':' +
+                                      data[justChannel].currentScrim.wins + ' | ' +
+                                      data[justChannel].currentScrim.opponent + ':' +
+                                      data[justChannel].currentScrim.losses;
+                    client.say(channel, scoreString);
+                } else {
+                    var scoreString = 'Series completed. Last Series Finished - ' +
+                                      data[justChannel].team + ':' +
+                                      data[justChannel].currentScrim.wins + ' | ' +
+                                      data[justChannel].currentScrim.opponent + ':' +
+                                      data[justChannel].currentScrim.losses;
+                    client.say(channel, scoreString);
+                }
         }
     }
 });

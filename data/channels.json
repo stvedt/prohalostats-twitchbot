@@ -3,8 +3,8 @@
         "team": "EnVyUs",
         "currentScrim": {
             "archived": true,
-            "opponent": " triggers down",
-            "wins": 0,
+            "opponent": " Denial",
+            "wins": 3,
             "losses": 0
         },
         "pastScrims": [
@@ -23,7 +23,20 @@
                 "opponent": " triggers down",
                 "wins": 0,
                 "losses": 0
+            },
+            {
+                "archived": true,
+                "opponent": " Denial",
+                "wins": 3,
+                "losses": 0
+            },
+            {
+                "archived": true,
+                "opponent": " Denial",
+                "wins": 3,
+                "losses": 0
             }
-        ]
+        ],
+        "_locals": {}
     }
 }
