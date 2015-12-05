@@ -1,22 +1,9 @@
 {
-    "total" : 5,
-    "1":{
-        "EnVyUs":{
+    "1": {
+        "EnVyUs": {
             "score": 0
         },
-        "CLG":{
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ]
-    },
-    "2":{
-        "EnVyUs":{
-            "score": 0
-        },
-        "CLG":{
+        "CLG": {
             "score": 0
         },
         "matches": [
@@ -24,23 +11,11 @@
             "222222"
         ]
     },
-    "3":{
-        "EnVyUs":{
+    "2": {
+        "EnVyUs": {
             "score": 0
         },
-        "CLG":{
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ]
-    },
-    "4":{
-        "EnVyUs":{
-            "score": 0
-        },
-        "CLG":{
+        "CLG": {
             "score": 0
         },
         "matches": [
@@ -48,16 +23,50 @@
             "222222"
         ]
     },
-    "5":{
-        "EnVyUs":{
+    "3": {
+        "EnVyUs": {
             "score": 0
         },
-        "CLG":{
+        "CLG": {
             "score": 0
         },
         "matches": [
             "111111",
             "222222"
         ]
-    }
+    },
+    "4": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ]
+    },
+    "5": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ]
+    },
+    "6": {
+        "team1": {
+            "score": 0
+        },
+        "team2": {
+            "score": 0
+        },
+        "matches": []
+    },
+    "total": 5
 }

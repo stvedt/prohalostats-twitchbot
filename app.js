@@ -25,10 +25,23 @@ function updateDataFiles( updatedChannelsData , updatedTeamsData, updatedScrimsD
   fs.writeFile('./data/scrims.json', JSON.stringify(updatedScrimsData, null, 4));
 }
 
+function newTeam(teamName){
+
+    teamsData[teamName] =
+    {
+        "currentScrim": null,
+        "pastScrims": []
+    };
+
+}
+
 function newScrim( channel, team1, team2){
     var newScrimID = scrimsData.total+1;
     channelsData[channel].currentScrim = newScrimID;
     teamsData[team1].currentScrim = newScrimID;
+    if(typeof teamsData[team2] == "undefined"){
+        newTeam(team2);
+    }
     teamsData[team2].currentScrim = newScrimID;
 
     //console.log(scrimsData);
@@ -45,7 +58,7 @@ function newScrim( channel, team1, team2){
 
     //console.log(scrimsData);
 
-    //updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(channelsData, teamsData, scrimsData);
 
 }
 

@@ -1,11 +1,15 @@
 {
     "EnVyUs": {
-        "currentScrim": 5,
+        "currentScrim": 6,
         "pastScrims": [
             "1",
             "2",
             "3",
             "4"
         ]
+    },
+    "Optic": {
+        "currentScrim": 6,
+        "pastScrims": []
     }
 }
