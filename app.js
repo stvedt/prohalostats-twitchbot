@@ -9,17 +9,50 @@ var fs = require('fs');
 var indexRoutes = require('./routes/index');
 var channelRoutes = require('./routes/channels');
 
+//DATA
 var channelsData = require('./data/channels');
 var teamsData = require('./data/teams');
+var scrimsData = require('./data/scrims');
 
 var app = express();
 
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
 //Twitch Bot
-function updateDataFiles( updatedChannelsData , updatedTeamsData ){
+function updateDataFiles( updatedChannelsData , updatedTeamsData, updatedScrimsData ){
   fs.writeFile('./data/channels.json', JSON.stringify(updatedChannelsData, null, 4));
   fs.writeFile('./data/teams.json', JSON.stringify(updatedTeamsData, null, 4));
+  fs.writeFile('./data/scrims.json', JSON.stringify(updatedScrimData, null, 4));
+}
+
+function newScrim( channel, team1, team2){
+    var newScrimID = scrimsData.total+1;
+    channelsData[channel].currentScrim = newScrimID;
+    teamsData[team1].currentScrim = newScrimID;
+    teamsData[team2].currentScrim = newScrimID;
+
+    scrimsData[newScrimID] = {
+        team1:{
+            "score": 0
+        },
+        team2:{
+            "score": 0
+        },
+        "matches": []
+    };
+
+    updateDataFiles(channelsData, teamsData, scrimsData);
+
+}
+
+function logWin(scrimID){
+    scrimsData.scrimID.team1.score++;
+
+}
+
+function logLoss(scrimID){
+    scrimsData.scrimID.team2.score++;
+
 }
 
 // Do NOT include this line if you are using the built js version!
@@ -41,7 +74,6 @@ var options = {
 };
 
 var client = new irc.client(options);
-
 client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     var justChannel = channel.substring(1);
@@ -64,10 +96,10 @@ client.on("chat", function(channel, user, message, self) {
                 updateDataFiles(channelsData, teamsData);
                 break;
             case "!newseries":
-                if(playerTeam.currentScrim.archived == false ){
-                    playerTeam.pastScrims.push(playerTeam.currentScrim);
-                    playerTeam.currentScrim.archived = true;
-                }
+                // if(playerTeam.currentScrim.archived == false ){
+                //     playerTeam.pastScrims.push(playerTeam.currentScrim);
+                //     playerTeam.currentScrim.archived = true;
+                // }
 
                 var newOpponentName = message.substring(11);
                 playerTeam.currentScrim.opponent = newOpponentName;
