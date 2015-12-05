@@ -47,14 +47,15 @@ function newScrim( channel, team1, team2){
     //console.log(scrimsData);
 
     scrimsData[newScrimID] = {
-        team1:{
+        [team1]:{
             "score": 0
         },
-        team2:{
+        [team2]:{
             "score": 0
         },
         "matches": []
     };
+    scrimsData.total++;
 
     //console.log(scrimsData);
 
@@ -62,16 +63,34 @@ function newScrim( channel, team1, team2){
 
 }
 
-function logWin(scrimID){
-    scrimsData.scrimID.team1.score++;
+function finishScrim(scrimID){
 
 }
 
-function logLoss(scrimID){
-    scrimsData.scrimID.team2.score++;
+function logWin(scrimID, usersTeam){
+    scrimsData.scrimID[usersTeam].score++;
+    updateDataFiles(channelsData, teamsData, scrimsData);
 
 }
 
+function logLoss(scrimID, opponentsTeam){
+    scrimsData.scrimID[opponentsTeam].score++;
+    updateDataFiles(channelsData, teamsData, scrimsData);
+}
+
+function getScore(scrimID, usersTeam){
+
+}
+
+function getTeams(scrimID){
+    var scrim = scrimsData[scrimID];
+    var teamNames = [];
+    for ( property in scrim) {
+        teamNames.push(property);
+    }
+    console.log(teamNames);
+    return teamNames;
+}
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
 
@@ -94,8 +113,21 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     var justChannel = channel.substring(1);
-    var team = channelsData[justChannel].team;
-    var playerTeam = teamsData[team];
+    var currentScrimID = channelsData[justChannel].currentScrim;
+
+    //determing player team and opponent
+    var teamName = channelsData[justChannel].team;
+    var playerTeam = teamsData[teamName];
+    var opponentsTeamName;
+    var teamNames = getTeams(currentScrimID);
+    for(i=0; i<=1; i++){
+        if (teamNames[i] !== playerTeam){
+            opponentsTeamName = teamNames[i];
+        }
+    }
+
+    console.log( teamName, opponentsTeamName);
+    
     if (!self) {
         var split = message.toLowerCase().split(" ");
 
@@ -103,31 +135,17 @@ client.on("chat", function(channel, user, message, self) {
             case "!win":
                 //
                 client.say(channel, "win logged");
-                playerTeam.currentScrim.wins++;
-                updateDataFiles(channelsData, teamsData);
+                logWin(currentScrimID);
                 break;
             case "!loss":
                 //
                 client.say(channel, "loss logged");
-                playerTeam.currentScrim.losses++;
-                updateDataFiles(channelsData, teamsData);
+                logLoss(currentScrimID);
                 break;
             case "!newseries":
-                // if(playerTeam.currentScrim.archived == false ){
-                //     playerTeam.pastScrims.push(playerTeam.currentScrim);
-                //     playerTeam.currentScrim.archived = true;
-                // }
-
-                var newOpponentName = message.substring(11);
-
-                newScrim( justChannel, team, newOpponentName)
-                // playerTeam.currentScrim.opponent = newOpponentName;
-                // playerTeam.currentScrim.wins = 0;
-                // playerTeam.currentScrim.losses = 0;
-                // playerTeam.currentScrim.archived = false;
-                // updateDataFiles(channelsData, teamsData);
-                //console.log(split);
                 //
+                var newOpponentName = message.substring(11);
+                newScrim( justChannel, teamName, newOpponentName);
                 break;
             case "!finishseries":
                 if(playerTeam.currentScrim.archived == false ){
@@ -138,7 +156,7 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!score":
                 if(playerTeam.currentScrim.archived == false ){
-                    var scoreString = team + ':' +
+                    var scoreString = teamName + ':' +
                                       playerTeam.currentScrim.wins + ' | ' +
                                       playerTeam.currentScrim.opponent + ':' +
                                       playerTeam.currentScrim.losses;
