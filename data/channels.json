@@ -1,42 +1,67 @@
 {
-    "norwegiansven": {
-        "team": "EnVyUs",
+    "EnVyUs": {
         "currentScrim": {
-            "archived": true,
-            "opponent": " Denial",
-            "wins": 3,
-            "losses": 0
+            "archived": false,
+            "matchID": "6",
+            "opponent": "Denial",
+            "wins": 4,
+            "losses": 0,
+            "matches": [
+                "111111",
+                "222222"
+            ]
         },
         "pastScrims": [
             {
+                "matchID": "1",
                 "opponent": "CLG",
                 "wins": 0,
-                "losses": 0
+                "losses": 0,
+                "matches": [
+                    "111111",
+                    "222222"
+                ]
             },
             {
+                "matchID": "2",
                 "opponent": "CLG",
                 "wins": 5,
-                "losses": 0
+                "losses": 0,
+                "matches": [
+                    "111111",
+                    "222222"
+                ]
             },
             {
-                "archived": true,
-                "opponent": " triggers down",
+                "matchID": "3",
+                "opponent": "triggers down",
                 "wins": 0,
-                "losses": 0
+                "losses": 0,
+                "matches": [
+                    "111111",
+                    "222222"
+                ]
             },
             {
-                "archived": true,
-                "opponent": " Denial",
+                "matchID": "4",
+                "opponent": "Denial",
                 "wins": 3,
-                "losses": 0
+                "losses": 0,
+                "matches": [
+                    "111111",
+                    "222222"
+                ]
             },
             {
-                "archived": true,
-                "opponent": " Denial",
+                "matchID": "5",
+                "opponent": "Denial",
                 "wins": 3,
-                "losses": 0
+                "losses": 0,
+                "matches": [
+                    "111111",
+                    "222222"
+                ]
             }
-        ],
-        "_locals": {}
+        ]
     }
 }

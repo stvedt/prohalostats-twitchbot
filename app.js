@@ -9,16 +9,17 @@ var fs = require('fs');
 var indexRoutes = require('./routes/index');
 var channelRoutes = require('./routes/channels');
 
-var data = require('./data/channels');
-console.log(data);
+var channelsData = require('./data/channels');
+var teamsData = require('./data/teams');
 
 var app = express();
 
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
 //Twitch Bot
-function updateDataFile( updatedData ){
-  fs.writeFile('./data/channels.json', JSON.stringify(updatedData, null, 4));
+function updateDataFiles( updatedChannelsData , updatedTeamsData ){
+  fs.writeFile('./data/channels.json', JSON.stringify(updatedChannelsData, null, 4));
+  fs.writeFile('./data/teams.json', JSON.stringify(updatedTeamsData, null, 4));
 }
 
 // Do NOT include this line if you are using the built js version!
@@ -44,6 +45,8 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     var justChannel = channel.substring(1);
+    var team = channelsData[justChannel].team;
+    var playerTeam = teamsData[team];
     if (!self) {
         var split = message.toLowerCase().split(" ");
 
@@ -51,51 +54,50 @@ client.on("chat", function(channel, user, message, self) {
             case "!win":
                 //
                 client.say(channel, "win logged");
-                data[justChannel].currentScrim.wins++;
-                updateDataFile(data);
+                playerTeam.currentScrim.wins++;
+                updateDataFiles(channelsData, teamsData);
                 break;
             case "!loss":
                 //
                 client.say(channel, "loss logged");
-                data[justChannel].currentScrim.losses++;
-                updateDataFile(data);
+                playerTeam.currentScrim.losses++;
+                updateDataFiles(channelsData, teamsData);
                 break;
             case "!newseries":
-                if(data[justChannel].currentScrim.archived == false ){
-                    data[justChannel].pastScrims.push(data[justChannel].currentScrim);
-                    data[justChannel].currentScrim.archived = true;
+                if(playerTeam.currentScrim.archived == false ){
+                    playerTeam.pastScrims.push(playerTeam.currentScrim);
+                    playerTeam.currentScrim.archived = true;
                 }
 
-                var newOpponentName = message.substring(10);
-                data[justChannel].currentScrim.opponent = newOpponentName;
-                data[justChannel].currentScrim.wins = 0;
-                data[justChannel].currentScrim.losses = 0;
-                data[justChannel].currentScrim.archived = false;
-                updateDataFile(data);
+                var newOpponentName = message.substring(11);
+                playerTeam.currentScrim.opponent = newOpponentName;
+                playerTeam.currentScrim.wins = 0;
+                playerTeam.currentScrim.losses = 0;
+                playerTeam.currentScrim.archived = false;
+                updateDataFiles(channelsData, teamsData);
                 //console.log(split);
                 //
                 break;
-
             case "!finishseries":
-                if(data[justChannel].currentScrim.archived == false ){
-                  data[justChannel].pastScrims.push(data[justChannel].currentScrim);
-                  data[justChannel].currentScrim.archived = true;
-                  updateDataFile(data);
+                if(playerTeam.currentScrim.archived == false ){
+                  playerTeam.pastScrims.push(playerTeam.currentScrim);
+                  playerTeam.currentScrim.archived = true;
+                  updateDataFiles(channelsData, teamsData);
                 }
                 break;
             case "!score":
-                if(data[justChannel].currentScrim.archived == false ){
-                    var scoreString = data[justChannel].team + ':' +
-                                      data[justChannel].currentScrim.wins + ' | ' +
-                                      data[justChannel].currentScrim.opponent + ':' +
-                                      data[justChannel].currentScrim.losses;
+                if(playerTeam.currentScrim.archived == false ){
+                    var scoreString = team + ':' +
+                                      playerTeam.currentScrim.wins + ' | ' +
+                                      playerTeam.currentScrim.opponent + ':' +
+                                      playerTeam.currentScrim.losses;
                     client.say(channel, scoreString);
                 } else {
                     var scoreString = 'Series completed. Last Series Finished - ' +
-                                      data[justChannel].team + ':' +
-                                      data[justChannel].currentScrim.wins + ' | ' +
-                                      data[justChannel].currentScrim.opponent + ':' +
-                                      data[justChannel].currentScrim.losses;
+                                      playerTeam.team + ':' +
+                                      playerTeam.currentScrim.wins + ' | ' +
+                                      playerTeam.currentScrim.opponent + ':' +
+                                      playerTeam.currentScrim.losses;
                     client.say(channel, scoreString);
                 }
         }
