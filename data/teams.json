@@ -11,5 +11,9 @@
     "Optic": {
         "currentScrim": 6,
         "pastScrims": []
+    },
+    "Test": {
+        "currentScrim": 6,
+        "pastScrims": []
     }
 }

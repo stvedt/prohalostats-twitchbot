@@ -60,13 +60,13 @@
         ]
     },
     "6": {
-        "team1": {
+        "EnVyUs": {
             "score": 0
         },
-        "team2": {
+        "Test": {
             "score": 0
         },
         "matches": []
     },
-    "total": 5
+    "total": 6
 }
