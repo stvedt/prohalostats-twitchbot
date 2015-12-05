@@ -36,7 +36,7 @@ function newTeam(teamName){
 }
 
 function newScrim( channel, team1, team2){
-    var newScrimID = scrimsData.total+1;
+    var newScrimID = 's' + (scrimsData.total+1);
     channelsData[channel].currentScrim = newScrimID;
     teamsData[team1].currentScrim = newScrimID;
     if(typeof teamsData[team2] == "undefined"){
@@ -53,7 +53,8 @@ function newScrim( channel, team1, team2){
         [team2]:{
             "score": 0
         },
-        "matches": []
+        "matches": [],
+        "completed": false
     };
     scrimsData.total++;
 
@@ -63,23 +64,48 @@ function newScrim( channel, team1, team2){
 
 }
 
-function finishScrim(scrimID){
+function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
+    console.log(opponentsTeam);
+
+    // if(scrimsData[scrimID].completed == false ){
+      channelsData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
+      teamsData[usersTeam].pastScrims.push(scrimID);
+      teamsData[opponentsTeam].pastScrims.push(scrimID);
+      scrimsData[scrimID].completed = true;
+
+      updateDataFiles(channelsData, teamsData, scrimsData);
+    // } else {
+    //     return "No active Scrims";
+    // }
 
 }
 
 function logWin(scrimID, usersTeam){
-    scrimsData.scrimID[usersTeam].score++;
+    scrimsData[scrimID][usersTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
 
 }
 
 function logLoss(scrimID, opponentsTeam){
-    scrimsData.scrimID[opponentsTeam].score++;
+    scrimsData[scrimID][opponentsTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
 }
 
-function getScore(scrimID, usersTeam){
-
+function getScore(scrimID, usersTeam, opponentsTeam){
+    if(teamsData[usersTeam].currentScrim == scrimID ){
+        var scoreString = usersTeam + ':' +
+                          scrimsData[scrimID][usersTeam].score + ' | ' +
+                          opponentsTeam + ':' +
+                          scrimsData[scrimID][opponentsTeam].score;
+        return scoreString;
+    } else {
+        var scoreString = 'Series completed. Last Series Finished - ' +
+                          usersTeam + ':' +
+                          scrimsData[scrimID][usersTeam].score + ' | ' +
+                          opponentsTeam + ':' +
+                          scrimsData[scrimID][opponentsTeam].score;
+        return scoreString;
+    }
 }
 
 function getTeams(scrimID){
@@ -135,12 +161,12 @@ client.on("chat", function(channel, user, message, self) {
             case "!win":
                 //
                 client.say(channel, "win logged");
-                logWin(currentScrimID);
+                logWin(currentScrimID, teamName);
                 break;
             case "!loss":
                 //
                 client.say(channel, "loss logged");
-                logLoss(currentScrimID);
+                logLoss(currentScrimID, opponentsTeamName);
                 break;
             case "!newseries":
                 //
@@ -148,27 +174,12 @@ client.on("chat", function(channel, user, message, self) {
                 newScrim( justChannel, teamName, newOpponentName);
                 break;
             case "!finishseries":
-                if(playerTeam.currentScrim.archived == false ){
-                  playerTeam.pastScrims.push(playerTeam.currentScrim);
-                  playerTeam.currentScrim.archived = true;
-                  updateDataFiles(channelsData, teamsData);
-                }
+                finishScrim(currentScrimID, teamName, opponentsTeamName, justChannel);
                 break;
             case "!score":
-                if(playerTeam.currentScrim.archived == false ){
-                    var scoreString = teamName + ':' +
-                                      playerTeam.currentScrim.wins + ' | ' +
-                                      playerTeam.currentScrim.opponent + ':' +
-                                      playerTeam.currentScrim.losses;
-                    client.say(channel, scoreString);
-                } else {
-                    var scoreString = 'Series completed. Last Series Finished - ' +
-                                      playerTeam.team + ':' +
-                                      playerTeam.currentScrim.wins + ' | ' +
-                                      playerTeam.currentScrim.opponent + ':' +
-                                      playerTeam.currentScrim.losses;
-                    client.say(channel, scoreString);
-                }
+                //
+                var scoreString = getScore(currentScrimID, teamName, opponentsTeamName);
+                client.say(channel, scoreString);
         }
     }
 });

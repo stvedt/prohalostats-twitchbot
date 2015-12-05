@@ -3,18 +3,22 @@
         "team": "EnVyUs",
         "pastTeams": [],
         "xuid": "",
-        "currentScrim": 6,
+        "currentScrim": "s8",
         "pastScrims": [
             {
-                "matchID": "1",
+                "scrimID": "s1",
                 "team": "EnVyUs"
             },
             {
-                "matchID": "2",
+                "scrimID": "s2",
                 "team": "EnVyUs"
             },
             {
-                "matchID": "3",
+                "scrimID": "s3",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s8",
                 "team": "EnVyUs"
             }
         ]
