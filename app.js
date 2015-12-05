@@ -73,9 +73,11 @@ function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
       teamsData[opponentsTeam].pastScrims.push(scrimID);
       scrimsData[scrimID].completed = true;
 
+      return "Scrim Ended";
+
       updateDataFiles(channelsData, teamsData, scrimsData);
     } else {
-        return "No active Scrims";
+        return "No Active Scrims";
     }
 
 }
@@ -160,21 +162,23 @@ client.on("chat", function(channel, user, message, self) {
         switch (split[0]) {
             case "!win":
                 //
-                client.say(channel, "win logged");
+                client.say(channel, "Win logged");
                 logWin(currentScrimID, teamName);
                 break;
             case "!loss":
                 //
-                client.say(channel, "loss logged");
+                client.say(channel, "Loss logged");
                 logLoss(currentScrimID, opponentsTeamName);
                 break;
             case "!newseries":
                 //
                 var newOpponentName = message.substring(11);
                 newScrim( justChannel, teamName, newOpponentName);
+                client.say(channel, "New Scrim Started");
                 break;
             case "!finishseries":
-                finishScrim(currentScrimID, teamName, opponentsTeamName, justChannel);
+                var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justChannel);
+                client.say(channel, finishString);
                 break;
             case "!score":
                 //
