@@ -67,16 +67,16 @@ function newScrim( channel, team1, team2){
 function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
     console.log(opponentsTeam);
 
-    // if(scrimsData[scrimID].completed == false ){
+    if(scrimsData[scrimID].completed == false ){
       channelsData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
       teamsData[usersTeam].pastScrims.push(scrimID);
       teamsData[opponentsTeam].pastScrims.push(scrimID);
       scrimsData[scrimID].completed = true;
 
       updateDataFiles(channelsData, teamsData, scrimsData);
-    // } else {
-    //     return "No active Scrims";
-    // }
+    } else {
+        return "No active Scrims";
+    }
 
 }
 
