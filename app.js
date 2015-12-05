@@ -22,7 +22,7 @@ var TWITCH_OAUTH_KEY = require('./keys/twitch');
 function updateDataFiles( updatedChannelsData , updatedTeamsData, updatedScrimsData ){
   fs.writeFile('./data/channels.json', JSON.stringify(updatedChannelsData, null, 4));
   fs.writeFile('./data/teams.json', JSON.stringify(updatedTeamsData, null, 4));
-  fs.writeFile('./data/scrims.json', JSON.stringify(updatedScrimData, null, 4));
+  fs.writeFile('./data/scrims.json', JSON.stringify(updatedScrimsData, null, 4));
 }
 
 function newScrim( channel, team1, team2){
