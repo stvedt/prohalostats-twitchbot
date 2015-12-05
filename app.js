@@ -31,6 +31,8 @@ function newScrim( channel, team1, team2){
     teamsData[team1].currentScrim = newScrimID;
     teamsData[team2].currentScrim = newScrimID;
 
+    //console.log(scrimsData);
+
     scrimsData[newScrimID] = {
         team1:{
             "score": 0
@@ -41,7 +43,9 @@ function newScrim( channel, team1, team2){
         "matches": []
     };
 
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    //console.log(scrimsData);
+
+    //updateDataFiles(channelsData, teamsData, scrimsData);
 
 }
 
@@ -102,11 +106,13 @@ client.on("chat", function(channel, user, message, self) {
                 // }
 
                 var newOpponentName = message.substring(11);
-                playerTeam.currentScrim.opponent = newOpponentName;
-                playerTeam.currentScrim.wins = 0;
-                playerTeam.currentScrim.losses = 0;
-                playerTeam.currentScrim.archived = false;
-                updateDataFiles(channelsData, teamsData);
+
+                newScrim( justChannel, team, newOpponentName)
+                // playerTeam.currentScrim.opponent = newOpponentName;
+                // playerTeam.currentScrim.wins = 0;
+                // playerTeam.currentScrim.losses = 0;
+                // playerTeam.currentScrim.archived = false;
+                // updateDataFiles(channelsData, teamsData);
                 //console.log(split);
                 //
                 break;
