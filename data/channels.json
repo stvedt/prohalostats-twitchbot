@@ -1,42 +1,26 @@
 {
     "norwegiansven": {
         "team": "EnVyUs",
-        "currentScrim": {
-            "archived": true,
-            "opponent": " Denial",
-            "wins": 3,
-            "losses": 0
-        },
+        "pastTeams": [],
+        "xuid": "",
+        "currentScrim": "s8",
         "pastScrims": [
             {
-                "opponent": "CLG",
-                "wins": 0,
-                "losses": 0
+                "scrimID": "s1",
+                "team": "EnVyUs"
             },
             {
-                "opponent": "CLG",
-                "wins": 5,
-                "losses": 0
+                "scrimID": "s2",
+                "team": "EnVyUs"
             },
             {
-                "archived": true,
-                "opponent": " triggers down",
-                "wins": 0,
-                "losses": 0
+                "scrimID": "s3",
+                "team": "EnVyUs"
             },
             {
-                "archived": true,
-                "opponent": " Denial",
-                "wins": 3,
-                "losses": 0
-            },
-            {
-                "archived": true,
-                "opponent": " Denial",
-                "wins": 3,
-                "losses": 0
+                "scrimID": "s8",
+                "team": "EnVyUs"
             }
-        ],
-        "_locals": {}
+        ]
     }
 }

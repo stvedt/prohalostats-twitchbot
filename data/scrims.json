@@ -1,0 +1,98 @@
+{
+    "s1": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s2": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s3": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s4": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s5": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s6": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "Test": {
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    "total": 8,
+    "s7": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "Test2": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
+    },
+    "s8": {
+        "EnVyUs": {
+            "score": 1
+        },
+        "Test3": {
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    }
+}

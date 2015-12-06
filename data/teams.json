@@ -1,0 +1,30 @@
+{
+    "EnVyUs": {
+        "currentScrim": "s8",
+        "pastScrims": [
+            "s1",
+            "s2",
+            "s3",
+            "s4",
+            "s8"
+        ]
+    },
+    "Optic": {
+        "currentScrim": 6,
+        "pastScrims": []
+    },
+    "Test": {
+        "currentScrim": 6,
+        "pastScrims": []
+    },
+    "Test2": {
+        "currentScrim": "s7",
+        "pastScrims": []
+    },
+    "Test3": {
+        "currentScrim": "s8",
+        "pastScrims": [
+            "s8"
+        ]
+    }
+}
