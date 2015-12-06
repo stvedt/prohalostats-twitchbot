@@ -205,16 +205,14 @@ client.on("chat", function(channel, user, message, self) {
         var split = message.toLowerCase().split(" ");
 
         switch (split[0]) {
+            case "!commands":
+                client.say(channel, "http://prohalostats.com/bot/");
+                break;
             case "!join":
                 if(join(channel, user)==true){
                     var channelJoin = '#' + user.username;
                     client.join(channelJoin);
                 }
-                break;
-
-            case "!newchannel":
-                var newTeamName = message.substring(12);
-                newChannel(justChannel, newTeamName);
                 break;
             case "!setteam":
                 var newTeamName = message.substring(9);
