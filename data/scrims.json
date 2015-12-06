@@ -74,7 +74,7 @@
         "matches": [],
         "completed": true
     },
-    "total": 8,
+    "total": 11,
     "s7": {
         "EnVyUs": {
             "score": 3
@@ -91,6 +91,36 @@
         },
         "Test3": {
             "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s9": {
+        "EnVyUs": {
+            "score": 2
+        },
+        "Believe The Hype": {
+            "score": 2
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s10": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "Triggers Down": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
+    },
+    "s11": {
+        "EnVyUs": {
+            "score": 5
+        },
+        "Triggers Down": {
+            "score": 2
         },
         "matches": [],
         "completed": true

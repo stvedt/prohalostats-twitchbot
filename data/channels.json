@@ -3,7 +3,7 @@
         "team": "EnVyUs",
         "pastTeams": [],
         "xuid": "",
-        "currentScrim": "s8",
+        "currentScrim": "s11",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -18,7 +18,31 @@
                 "team": "EnVyUs"
             },
             {
+                "scrimID": "s4",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s5",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s6",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s7",
+                "team": "EnVyUs"
+            },
+            {
                 "scrimID": "s8",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s9",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s11",
                 "team": "EnVyUs"
             }
         ]
