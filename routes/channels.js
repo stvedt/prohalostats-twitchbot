@@ -26,14 +26,14 @@ function shapeViewData(channelName){
 }
 
 /* GET home page. */
-router.get('/:channelName?/', function(req, res, next) {
+router.get('/:channelName?/score/', function(req, res, next) {
     var channelName = req.params.channelName;
     var viewData = shapeViewData(channelName);
 
   res.render('channel-score', viewData );
 });
 
-router.use('/:channelName?/get/',function(req, res, next){
+router.use('/:channelName?/score/get/',function(req, res, next){
     var channelName = req.params.channelName;
     var viewData = shapeViewData(channelName);
     res.json(viewData);
