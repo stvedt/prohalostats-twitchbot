@@ -74,7 +74,7 @@
         "matches": [],
         "completed": true
     },
-    "total": 13,
+    "total": 14,
     "s7": {
         "EnVyUs": {
             "score": 3
@@ -144,5 +144,12 @@
         },
         "matches": [],
         "completed": true
+    },
+    "s14": {
+        "Winterfox": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
     }
 }
