@@ -15,7 +15,8 @@
             "s11",
             "s12",
             "s13"
-        ]
+        ],
+        "team": "EnVyUs"
     },
     "Optic": {
         "currentScrim": 6,
@@ -57,5 +58,14 @@
         "pastScrims": [
             "s13"
         ]
+    },
+    "": {
+        "currentScrim": "",
+        "pastScrims": []
+    },
+    "Winterfox": {
+        "currentScrim": "s14",
+        "pastScrims": [],
+        "team": "Winterfox"
     }
 }
