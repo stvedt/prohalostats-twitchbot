@@ -1,11 +1,12 @@
-{
-    "norwegiansven": {
+[
+    {
+        "name": "norwegiansven",
         "team": "EnVyUs",
         "pastTeams": [
             "Final Boss"
         ],
         "xuid": "",
-        "currentScrim": "s13",
+        "currentScrim": "s16",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -50,10 +51,15 @@
             {
                 "scrimID": "s13",
                 "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s15",
+                "team": "EnVyUs"
             }
         ]
     },
-    "imikwen": {
+    {
+        "name": "imikwen",
         "team": "EnVyUs",
         "pastTeams": [
             null,
@@ -63,4 +69,4 @@
         "currentScrim": "s14",
         "pastScrims": []
     }
-}
+]

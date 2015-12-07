@@ -1,155 +1,210 @@
-{
-    "s1": {
-        "EnVyUs": {
+[
+    {
+        "id": "s1",
+        "team1": {
+            "name": "EnVyUs",
             "score": 0
         },
-        "CLG": {
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ],
-        "completed": true
-    },
-    "s2": {
-        "EnVyUs": {
-            "score": 0
-        },
-        "CLG": {
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ],
-        "completed": true
-    },
-    "s3": {
-        "EnVyUs": {
-            "score": 0
-        },
-        "CLG": {
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ],
-        "completed": true
-    },
-    "s4": {
-        "EnVyUs": {
-            "score": 0
-        },
-        "CLG": {
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ],
-        "completed": true
-    },
-    "s5": {
-        "EnVyUs": {
-            "score": 0
-        },
-        "CLG": {
-            "score": 0
-        },
-        "matches": [
-            "111111",
-            "222222"
-        ],
-        "completed": true
-    },
-    "s6": {
-        "EnVyUs": {
-            "score": 0
-        },
-        "Test": {
+        "team2": {
+            "name": "CLG",
             "score": 0
         },
         "matches": [],
         "completed": true
     },
-    "total": 14,
-    "s7": {
-        "EnVyUs": {
+    {
+        "id": "s2",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 0
+        },
+        "team2": {
+            "name": "CLG",
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s3",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 0
+        },
+        "team2": {
+            "name": "CLG",
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s4",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 0
+        },
+        "team2": {
+            "name": "CLG",
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s5",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 0
+        },
+        "team2": {
+            "name": "CLG",
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s6",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 0
+        },
+        "team2": {
+            "name": "Test",
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s7",
+        "team1": {
+            "name": "EnVyUs",
             "score": 3
         },
-        "Test2": {
+        "team2": {
+            "name": "Test2",
             "score": 1
         },
         "matches": [],
         "completed": false
     },
-    "s8": {
-        "EnVyUs": {
+    {
+        "id": "s8",
+        "team1": {
+            "name": "EnVyUs",
             "score": 1
         },
-        "Test3": {
+        "team2": {
+            "name": "Test3",
             "score": 0
         },
         "matches": [],
         "completed": true
     },
-    "s9": {
-        "EnVyUs": {
+    {
+        "id": "s9",
+        "team1": {
+            "name": "EnVyUs",
             "score": 2
         },
-        "Believe The Hype": {
+        "team2": {
+            "name": "Believe The Hype",
             "score": 2
         },
         "matches": [],
         "completed": true
     },
-    "s10": {
-        "EnVyUs": {
+    {
+        "id": "s10",
+        "team1": {
+            "name": "EnVyUs",
             "score": 3
         },
-        "Triggers Down": {
+        "team2": {
+            "name": "Triggers Down",
             "score": 1
         },
         "matches": [],
         "completed": false
     },
-    "s11": {
-        "EnVyUs": {
+    {
+        "id": "s11",
+        "team1": {
+            "name": "EnVyUs",
             "score": 6
         },
-        "Triggers Down": {
+        "team2": {
+            "name": "Triggers Down",
             "score": 2
         },
         "matches": [],
         "completed": true
     },
-    "s12": {
-        "Final Boss": {
+    {
+        "id": "s12",
+        "team1": {
+            "name": "Final Boss",
             "score": 1
         },
-        "EnVyUs": {
+        "team2": {
+            "name": "EnVyUs",
             "score": 1
         },
         "matches": [],
         "completed": true
     },
-    "s13": {
-        "EnVyUs": {
+    {
+        "id": "s13",
+        "team1": {
+            "name": "EnVyUs",
             "score": 3
         },
-        "5k": {
+        "team2": {
+            "name": "5k",
             "score": 1
         },
         "matches": [],
         "completed": true
     },
-    "s14": {
-        "Winterfox": {
+    {
+        "id": "s14",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 1
+        },
+        "team2": {
+            "name": "Winterfox",
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
+    },
+    {
+        "id": "s15",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 2
+        },
+        "team2": {
+            "name": "Triggers Down",
+            "score": 3
+        },
+        "matches": [],
+        "completed": true
+    },
+    {
+        "id": "s16",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 3
+        },
+        "team2": {
+            "name": "Test12",
             "score": 1
         },
         "matches": [],
         "completed": false
     }
-}
+]
