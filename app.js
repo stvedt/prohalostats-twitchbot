@@ -28,7 +28,7 @@ function updateDataFiles( updatedusersData , updatedTeamsData, updatedScrimsData
 }
 
 function join(channel, user){
-    console.log(channel);
+    //console.log(channel);
     if(channel == "#norwegiansven"){
         return true;
     }
@@ -84,7 +84,7 @@ function setTeam(justUser, teamName){
 }
 
 function newScrim( user, team1, team2){
-    var newScrimID = 's' + (scrimsData.total+1);
+    var newScrimID = 's' + (scrimsData.length+1);
     usersData.find(function (res) { return res.name === user; }).currentScrim = newScrimID;
     teamsData.find(function (res) { return res.name === team1; }).currentScrim = newScrimID;
     if(typeof teamsData.find(function (res) { return res.name === team2; }) == "undefined"){
@@ -92,17 +92,19 @@ function newScrim( user, team1, team2){
     }
     teamsData.find(function (res) { return res.name === team2; }).currentScrim = newScrimID;
 
-    scrimsData[newScrimID] = {
-        [team1]:{
+    scrimsData.push({
+        "id": newScrimID,
+        "team1": {
+            "name": team1,
             "score": 0
         },
-        [team2]:{
+        "team2": {
+            "name": team2,
             "score": 0
         },
         "matches": [],
         "completed": false
-    };
-    scrimsData.total++;
+    });
 
     updateDataFiles(usersData, teamsData, scrimsData);
 
@@ -110,16 +112,17 @@ function newScrim( user, team1, team2){
 
 }
 
-function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
+function finishScrim(scrimID, usersTeam, opponentsTeam, usersName){
     if(scrimID == ""){
         return "No Scrims Played";
     }
+    var thisScrim = scrimsData.find(function (res) { return res.id === scrimID; });
 
-    if(scrimsData[scrimID].completed === false ){
-        usersData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
+    if( thisScrim.completed === false ){
+        usersData.find(function (res) { return res.name === usersName; }).pastScrims.push({"scrimID":scrimID, "team":usersTeam });
         teamsData.find(function (res) { return res.name === usersTeam; }).pastScrims.push(""+scrimID);
         teamsData.find(function (res) { return res.name === opponentsTeam; }).pastScrims.push(""+scrimID);
-        scrimsData[scrimID].completed = true;
+        thisScrim.completed = true;
 
         updateDataFiles(usersData, teamsData, scrimsData);
         return "Scrim Ended";
@@ -132,10 +135,19 @@ function logWin(scrimID, usersTeam){
     if(scrimID == ""){
         return "No Scrims Played";
     }
-    if( scrimsData[scrimID].completed == true ){
+
+    var thisScrim = scrimsData.find(function (res) { return res.id === scrimID; });
+
+    if( thisScrim.completed == true ){
         return "Scrim Has Ended";
     }
-    scrimsData[scrimID][usersTeam].score++;
+
+    if( thisScrim.team1.name === usersTeam){
+        thisScrim.team1.score++;
+    } else {
+        thisScrim.team2.score++;
+    }
+
     updateDataFiles(usersData, teamsData, scrimsData);
     return "Win Logged";
 
@@ -145,10 +157,17 @@ function logLoss(scrimID, opponentsTeam){
     if(scrimID == ""){
         return "No Scrims Played";
     }
-    if( scrimsData[scrimID].completed == true ){
+
+    var thisScrim = scrimsData.find(function (res) { return res.id === scrimID; });
+
+    if( thisScrim.completed == true ){
         return "Scrim Has Ended";
     }
-    scrimsData[scrimID][opponentsTeam].score++;
+    if( thisScrim.team1.name === opponentsTeam){
+        thisScrim.team1.score++;
+    } else {
+        thisScrim.team2.score++;
+    }
     updateDataFiles(usersData, teamsData, scrimsData);
     return "Loss Logged";
 }
@@ -158,18 +177,28 @@ function getScore(scrimID, usersTeam, opponentsTeam){
         return "No Scrims Played";
     }
 
-    if(scrimsData[scrimID].completed == false ){
-        var scoreString =   usersTeam + ':' +
-                            scrimsData[scrimID][usersTeam].score + ' | ' +
-                            opponentsTeam + ':' +
-                            scrimsData[scrimID][opponentsTeam].score;
+    var thisScrim = scrimsData.find(function (res) { return res.id === scrimID; });
+
+    if( thisScrim.team1.name === usersTeam){
+        usersTeam = 'team1';
+        opponentsTeam = 'team2';
+    } else {
+        usersTeam = 'team2';
+        opponentsTeam = 'team1';
+    }
+
+    if( thisScrim.completed == false ){
+        var scoreString =   thisScrim[usersTeam].name + ':' +
+                            thisScrim[usersTeam].score + ' | ' +
+                            thisScrim[opponentsTeam].name + ':' +
+                            thisScrim[opponentsTeam].score;
         return scoreString;
     } else {
         var scoreString =   'Series Completed.   ' +
-                            usersTeam + ':' +
-                            scrimsData[scrimID][usersTeam].score + ' | ' +
-                            opponentsTeam + ':' +
-                            scrimsData[scrimID][opponentsTeam].score;
+                            thisScrim[usersTeam].name + ':' +
+                            thisScrim[usersTeam].score  + ' | ' +
+                            thisScrim[opponentsTeam].name + ':' +
+                            thisScrim[opponentsTeam].scoreString;
         return scoreString;
     }
 }
