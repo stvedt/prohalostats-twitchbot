@@ -14,6 +14,8 @@ var channelsData = require('./data/channels');
 var teamsData = require('./data/teams');
 var scrimsData = require('./data/scrims');
 
+var helpers = require('./helpers.js');
+
 var app = express();
 
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
@@ -65,9 +67,10 @@ function setTeam(justChannel, teamName){
         newTeam(teamName);
     } else {
         //archive old team name
-        channelsData[teamName].pastTeams.push(teamsData[teamName].team);
+        channelsData[justChannel].pastTeams.push(teamsData[teamName].team);
 
         //set new name
+        channelsData[justChannel].team = teamName;
         teamsData[teamName].team = teamName;
     }
     updateDataFiles(channelsData, teamsData, scrimsData);
@@ -124,6 +127,9 @@ function logWin(scrimID, usersTeam){
     if(scrimID == ""){
         return "No Scrims Played";
     }
+    if( scrimsData[scrimID].completed == true ){
+        return "Scrim Has Ended";
+    }
     scrimsData[scrimID][usersTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
     return "Win Logged";
@@ -133,6 +139,9 @@ function logWin(scrimID, usersTeam){
 function logLoss(scrimID, opponentsTeam){
     if(scrimID == ""){
         return "No Scrims Played";
+    }
+    if( scrimsData[scrimID].completed == true ){
+        return "Scrim Has Ended";
     }
     scrimsData[scrimID][opponentsTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
@@ -171,14 +180,6 @@ function getAllTeams(){
     return teams;
 }
 
-function getTeams(scrimID){
-    var scrim = scrimsData[scrimID];
-    var teamNames = [];
-    for ( property in scrim) {
-        teamNames.push(property);
-    }
-    return teamNames;
-}
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
 
@@ -211,7 +212,7 @@ client.on("chat", function(channel, user, message, self) {
     var teamName = channelsData[justChannel].team;
     var playerTeam = teamsData[teamName];
     var opponentsTeamName;
-    var teamNames = getTeams(currentScrimID);
+    var teamNames = helpers.getTeams(currentScrimID);
     for(i=0; i<=1; i++){
         if (teamNames[i] !== playerTeam){
             opponentsTeamName = teamNames[i];
