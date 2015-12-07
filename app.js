@@ -10,7 +10,7 @@ var indexRoutes = require('./routes/index');
 var channelRoutes = require('./routes/channels');
 
 //DATA
-var channelsData = require('./data/channels');
+var usersData = require('./data/users');
 var teamsData = require('./data/teams');
 var scrimsData = require('./data/scrims');
 
@@ -21,8 +21,8 @@ var app = express();
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
 //Twitch Bot
-function updateDataFiles( updatedChannelsData , updatedTeamsData, updatedScrimsData ){
-  fs.writeFile('./data/channels.json', JSON.stringify(updatedChannelsData, null, 4));
+function updateDataFiles( updatedusersData , updatedTeamsData, updatedScrimsData ){
+  fs.writeFile('./data/users.json', JSON.stringify(updatedusersData, null, 4));
   fs.writeFile('./data/teams.json', JSON.stringify(updatedTeamsData, null, 4));
   fs.writeFile('./data/scrims.json', JSON.stringify(updatedScrimsData, null, 4));
 }
@@ -36,14 +36,14 @@ function join(channel, user){
 }
 
 function newChannel(channel){
-    channelsData[channel]= {
+    usersData[channel]= {
         "team": "",
         "pastTeams": [],
         "xuid": "",
         "currentScrim": "",
         "pastScrims": []
     };
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
     return "New channel created";
 }
 
@@ -54,7 +54,7 @@ function newTeam(teamName){
         "currentScrim": "",
         "pastScrims": []
     };
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
 
     return "Team " +teamName + " created";
 
@@ -66,24 +66,24 @@ function setTeam(justChannel, teamName){
         return "Plass enter team name following command. (ex: !setteam Final Boss)";
     }
     if(typeof teamsData[teamName] == "undefined"){
-        channelsData[justChannel].team = teamName;
+        usersData[justChannel].team = teamName;
         newTeam(teamName);
     } else {
         //archive old team name
-        channelsData[justChannel].pastTeams.push(teamsData[teamName].team);
+        usersData[justChannel].pastTeams.push(teamsData[teamName].team);
 
         //set new name
-        channelsData[justChannel].team = teamName;
+        usersData[justChannel].team = teamName;
         teamsData[teamName].team = teamName;
     }
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
     return "Team name set to " + teamName;
 
 }
 
 function newScrim( channel, team1, team2){
     var newScrimID = 's' + (scrimsData.total+1);
-    channelsData[channel].currentScrim = newScrimID;
+    usersData[channel].currentScrim = newScrimID;
     teamsData[team1].currentScrim = newScrimID;
     if(typeof teamsData[team2] == "undefined"){
         newTeam(team2);
@@ -102,7 +102,7 @@ function newScrim( channel, team1, team2){
     };
     scrimsData.total++;
 
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
 
     return "New scrim started";
 
@@ -114,12 +114,12 @@ function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
     }
 
     if(scrimsData[scrimID].completed === false ){
-        channelsData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
+        usersData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
         teamsData[usersTeam].pastScrims.push(""+scrimID);
         teamsData[opponentsTeam].pastScrims.push(""+scrimID);
         scrimsData[scrimID].completed = true;
 
-        updateDataFiles(channelsData, teamsData, scrimsData);
+        updateDataFiles(usersData, teamsData, scrimsData);
         return "Scrim Ended";
     } else {
         return "No Active Scrims";
@@ -134,7 +134,7 @@ function logWin(scrimID, usersTeam){
         return "Scrim Has Ended";
     }
     scrimsData[scrimID][usersTeam].score++;
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
     return "Win Logged";
 
 }
@@ -147,7 +147,7 @@ function logLoss(scrimID, opponentsTeam){
         return "Scrim Has Ended";
     }
     scrimsData[scrimID][opponentsTeam].score++;
-    updateDataFiles(channelsData, teamsData, scrimsData);
+    updateDataFiles(usersData, teamsData, scrimsData);
     return "Loss Logged";
 }
 
@@ -205,14 +205,14 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
     var justChannel = channel.substring(1);
 
-    if(typeof channelsData[justChannel] == "undefined"){
+    if(typeof usersData[justChannel] == "undefined"){
         newChannel(justChannel);
     }
 
-    var currentScrimID = channelsData[justChannel].currentScrim;
+    var currentScrimID = usersData[justChannel].currentScrim;
 
     //determing player team and opponent
-    var teamName = channelsData[justChannel].team;
+    var teamName = usersData[justChannel].team;
     var playerTeam = teamsData[teamName];
     var opponentsTeamName;
     var teamNames = helpers.getTeams(currentScrimID);
@@ -228,7 +228,7 @@ client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
-        if(channelsData[justChannel].team == "" && split[0] !=="!setteam"){
+        if(usersData[justChannel].team == "" && split[0] !=="!setteam"){
             client.say(channel, "Team must be set using. !setteam");
             return;
         }

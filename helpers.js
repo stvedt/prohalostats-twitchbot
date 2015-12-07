@@ -1,5 +1,5 @@
 //DATA
-var channelsData = require('./data/channels');
+var usersData = require('./data/users');
 var teamsData = require('./data/teams');
 var scrimsData = require('./data/scrims');
 
