@@ -46,5 +46,17 @@
                 "team": "EnVyUs"
             }
         ]
+    },
+    "svenhalo": {
+        "team": "Final Boss",
+        "pastTeams": [],
+        "xuid": "",
+        "currentScrim": "s12",
+        "pastScrims": [
+            {
+                "scrimID": "s12",
+                "team": "Final Boss"
+            }
+        ]
     }
 }
