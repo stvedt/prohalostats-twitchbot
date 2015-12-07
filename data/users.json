@@ -6,7 +6,7 @@
             "Final Boss"
         ],
         "xuid": "",
-        "currentScrim": "s15",
+        "currentScrim": "s16",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -50,6 +50,10 @@
             },
             {
                 "scrimID": "s13",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s15",
                 "team": "EnVyUs"
             }
         ]

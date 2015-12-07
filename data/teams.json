@@ -1,7 +1,7 @@
 [
     {
         "name": "EnVyUs",
-        "currentScrim": "s15",
+        "currentScrim": "s16",
         "pastScrims": [
             "s1",
             "s2",
@@ -15,7 +15,8 @@
             "s10",
             "s11",
             "s12",
-            "s13"
+            "s13",
+            "s15"
         ],
         "team": "EnVyUs"
     },
@@ -50,7 +51,8 @@
         "name": "Triggers Down",
         "currentScrim": "s15",
         "pastScrims": [
-            "s11"
+            "s11",
+            "s15"
         ]
     },
     {
@@ -73,5 +75,10 @@
         "currentScrim": "s14",
         "pastScrims": [],
         "team": "Winterfox"
+    },
+    {
+        "name": "Test12",
+        "currentScrim": "s16",
+        "pastScrims": []
     }
 ]
