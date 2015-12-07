@@ -1,9 +1,11 @@
 {
     "norwegiansven": {
         "team": "EnVyUs",
-        "pastTeams": [],
+        "pastTeams": [
+            "Final Boss"
+        ],
         "xuid": "",
-        "currentScrim": "s11",
+        "currentScrim": "s13",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -43,6 +45,10 @@
             },
             {
                 "scrimID": "s11",
+                "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s13",
                 "team": "EnVyUs"
             }
         ]

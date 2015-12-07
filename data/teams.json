@@ -1,6 +1,6 @@
 {
     "EnVyUs": {
-        "currentScrim": "s12",
+        "currentScrim": "s13",
         "pastScrims": [
             "s1",
             "s2",
@@ -13,7 +13,8 @@
             "s9",
             "s10",
             "s11",
-            "s12"
+            "s12",
+            "s13"
         ]
     },
     "Optic": {
@@ -48,6 +49,13 @@
         "currentScrim": "s12",
         "pastScrims": [
             "s12"
+        ],
+        "team": "Final Boss"
+    },
+    "5k": {
+        "currentScrim": "s13",
+        "pastScrims": [
+            "s13"
         ]
     }
 }

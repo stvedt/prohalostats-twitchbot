@@ -11,12 +11,12 @@
   </head>
   <body>
     <h1>
-        <span class="wins"><%= currentScrim.wins %></span>
+        <span class="wins"><%= player.score %></span>
          -
-        <span class="losses"><%= currentScrim.losses %></span>
+        <span class="losses"><%= opponent.score %></span>
     </h1>
     <p>vs.</p>
-    <h2 class="opponent"><%= currentScrim.opponent %></h2>
+    <h2 class="opponent"><%= opponent.teamName %></h2>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -35,9 +35,9 @@
                     dataType:"JSON"
                 }).done(function(data) {
                     console.log(data);
-                    $wins.text(data.currentScrim.wins);
-                    $losses.text(data.currentScrim.losses);
-                    $opponent.text(data.currentScrim.opponent);
+                    $wins.text(data.player.score);
+                    $losses.text(data.opponent.score);
+                    $opponent.text(data.opponent.teamName);
 
                 });
             }
