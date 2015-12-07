@@ -74,7 +74,7 @@
         "matches": [],
         "completed": true
     },
-    "total": 11,
+    "total": 12,
     "s7": {
         "EnVyUs": {
             "score": 3
@@ -121,6 +121,16 @@
         },
         "Triggers Down": {
             "score": 2
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s12": {
+        "Final Boss": {
+            "score": 1
+        },
+        "EnVyUs": {
+            "score": 1
         },
         "matches": [],
         "completed": true

@@ -49,7 +49,7 @@ function newTeam(teamName){
 
     teamsData[teamName] =
     {
-        "currentScrim": null,
+        "currentScrim": "",
         "pastScrims": []
     };
     updateDataFiles(channelsData, teamsData, scrimsData);
@@ -58,13 +58,14 @@ function newTeam(teamName){
 
 }
 
-function setTeam(teamName){
+function setTeam(justChannel, teamName){
 
-    if(teamsData[teamName].team == ""){
-        teamsData[teamName].team = teamName;
+    if(typeof teamsData[teamName] == "undefined"){
+        channelsData[justChannel].team = teamName;
+        newTeam(teamName);
     } else {
         //archive old team name
-        teamsData[teamName].pastTeams.push(teamsData[teamName].team);
+        channelsData[teamName].pastTeams.push(teamsData[teamName].team);
 
         //set new name
         teamsData[teamName].team = teamName;
@@ -102,6 +103,9 @@ function newScrim( channel, team1, team2){
 }
 
 function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
+    if(scrimID == ""){
+        return "No Scrims Played";
+    }
 
     if(scrimsData[scrimID].completed === false ){
         channelsData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
@@ -117,6 +121,9 @@ function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
 }
 
 function logWin(scrimID, usersTeam){
+    if(scrimID == ""){
+        return "No Scrims Played";
+    }
     scrimsData[scrimID][usersTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
     return "Win Logged";
@@ -124,12 +131,19 @@ function logWin(scrimID, usersTeam){
 }
 
 function logLoss(scrimID, opponentsTeam){
+    if(scrimID == ""){
+        return "No Scrims Played";
+    }
     scrimsData[scrimID][opponentsTeam].score++;
     updateDataFiles(channelsData, teamsData, scrimsData);
     return "Loss Logged";
 }
 
 function getScore(scrimID, usersTeam, opponentsTeam){
+    if(scrimID == ""){
+        return "No Scrims Played";
+    }
+
     if(scrimsData[scrimID].completed == false ){
         var scoreString =   usersTeam + ':' +
                             scrimsData[scrimID][usersTeam].score + ' | ' +
@@ -144,6 +158,17 @@ function getScore(scrimID, usersTeam, opponentsTeam){
                             scrimsData[scrimID][opponentsTeam].score;
         return scoreString;
     }
+}
+
+function getAllTeams(){
+    var teamNames = [];
+    for ( property in teamsData ) {
+        teamNames.push(property);
+    }
+
+    var teams = teamNames.toString();
+    console.log(teams);
+    return teams;
 }
 
 function getTeams(scrimID){
@@ -175,15 +200,11 @@ var options = {
 var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
     var justChannel = channel.substring(1);
+
     if(typeof channelsData[justChannel] == "undefined"){
         newChannel(justChannel);
     }
-    if(channelsData[justChannel].team == ""){
-        client.say(channel, "Team must be set using. !setteam");
-    }
-    if(channelsData[justChannel].currentScrim == ""){
-        client.say(channel, "Team must be set using. !setteam");
-    }
+
     var currentScrimID = channelsData[justChannel].currentScrim;
 
     //determing player team and opponent
@@ -203,6 +224,10 @@ client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
+        if(channelsData[justChannel].team == "" && split[0] !=="!setteam"){
+            client.say(channel, "Team must be set using. !setteam");
+            return;
+        }
 
         switch (split[0]) {
             case "!commands":
@@ -220,19 +245,19 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!win":
                 //
-                client.say(channel, "Win logged");
-                logWin(currentScrimID, teamName);
+                var result = logWin(currentScrimID, teamName);
+                client.say(channel, result);
                 break;
             case "!loss":
                 //
-                client.say(channel, "Loss logged");
-                logLoss(currentScrimID, opponentsTeamName);
+                var result = logLoss(currentScrimID, opponentsTeamName);
+                client.say(channel, result);
                 break;
             case "!newseries":
                 //
                 var newOpponentName = message.substring(11);
-                newScrim( justChannel, teamName, newOpponentName);
-                client.say(channel, "New Scrim Started");
+                var result = newScrim( justChannel, teamName, newOpponentName);
+                client.say(channel, result);
                 break;
             case "!finishseries":
                 var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justChannel);
@@ -242,6 +267,12 @@ client.on("chat", function(channel, user, message, self) {
                 //
                 var scoreString = getScore(currentScrimID, teamName, opponentsTeamName);
                 client.say(channel, scoreString);
+                break;
+            case "!getteams":
+                //
+                var teamsString = getAllTeams();
+                client.say(channel, teamsString);
+                break;
         }
     }
 });
