@@ -66,17 +66,17 @@ function setTeam(justUser, teamName){
     if(teamName == "") {
         return "Plass enter team name following command. (ex: !setteam Final Boss)";
     }
-    if(typeof teamsData[teamName] == "undefined"){
+    if(typeof teamsData.find(function (res) { return res.name === teamName; }) == "undefined"){
         usersData.find(function (res) { return res.name === justUser; }).team = teamName;
 
         newTeam(teamName);
     } else {
         //archive old team name
-        usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData[teamName].team);
+        usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
 
         //set new name
         usersData.find(function (res) { return res.name === justUser; }).team = teamName;
-        teamsData[teamName].team = teamName;
+        teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
     }
     updateDataFiles(usersData, teamsData, scrimsData);
     return "Team name set to " + teamName;
@@ -86,11 +86,11 @@ function setTeam(justUser, teamName){
 function newScrim( user, team1, team2){
     var newScrimID = 's' + (scrimsData.total+1);
     usersData.find(function (res) { return res.name === user; }).currentScrim = newScrimID;
-    teamsData[team1].currentScrim = newScrimID;
-    if(typeof teamsData[team2] == "undefined"){
+    teamsData.find(function (res) { return res.name === team1; }).currentScrim = newScrimID;
+    if(typeof teamsData.find(function (res) { return res.name === team2; }) == "undefined"){
         newTeam(team2);
     }
-    teamsData[team2].currentScrim = newScrimID;
+    teamsData.find(function (res) { return res.name === team2; }).currentScrim = newScrimID;
 
     scrimsData[newScrimID] = {
         [team1]:{
@@ -117,8 +117,8 @@ function finishScrim(scrimID, usersTeam, opponentsTeam, channelName){
 
     if(scrimsData[scrimID].completed === false ){
         usersData[channelName].pastScrims.push({"scrimID":scrimID, "team":usersTeam });
-        teamsData[usersTeam].pastScrims.push(""+scrimID);
-        teamsData[opponentsTeam].pastScrims.push(""+scrimID);
+        teamsData.find(function (res) { return res.name === usersTeam; }).pastScrims.push(""+scrimID);
+        teamsData.find(function (res) { return res.name === opponentsTeam; }).pastScrims.push(""+scrimID);
         scrimsData[scrimID].completed = true;
 
         updateDataFiles(usersData, teamsData, scrimsData);
@@ -175,13 +175,8 @@ function getScore(scrimID, usersTeam, opponentsTeam){
 }
 
 function getAllTeams(){
-    var teamNames = [];
-    for ( property in teamsData ) {
-        teamNames.push(property);
-    }
-
+    var teamNames = teamsData.map(function(team){ return team.name; });
     var teams = teamNames.toString();
-    console.log(teams);
     return teams;
 }
 
@@ -215,7 +210,7 @@ client.on("chat", function(channel, user, message, self) {
 
     //determing player team and opponent
     var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
-    var playerTeam = teamsData[teamName];
+    var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
     var opponentsTeamName;
     var teamNames = helpers.getTeams(currentScrimID);
     for(i=0; i<=1; i++){
