@@ -62,11 +62,12 @@ function newTeam(teamName){
 
 function setTeam(justChannel, teamName){
 
+    if(teamName == "") {
+        return "Plass enter team name following command. (ex: !setteam Final Boss)";
+    }
     if(typeof teamsData[teamName] == "undefined"){
         channelsData[justChannel].team = teamName;
         newTeam(teamName);
-    } else if(teamName =="") {
-        return "Plass enter team name following command. (ex: !setteam Final Boss)";
     } else {
         //archive old team name
         channelsData[justChannel].pastTeams.push(teamsData[teamName].team);
