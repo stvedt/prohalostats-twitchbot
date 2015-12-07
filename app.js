@@ -36,44 +36,46 @@ function join(channel, user){
 }
 
 function newChannel(channel){
-    usersData[channel]= {
+    usersData.push({
+        "name": channel,
         "team": "",
         "pastTeams": [],
         "xuid": "",
         "currentScrim": "",
         "pastScrims": []
-    };
+    });
     updateDataFiles(usersData, teamsData, scrimsData);
     return "New channel created";
 }
 
 function newTeam(teamName){
 
-    teamsData[teamName] =
-    {
+    teamsData.push({
+        "name":teamName,
         "currentScrim": "",
         "pastScrims": []
-    };
+    });
     updateDataFiles(usersData, teamsData, scrimsData);
 
     return "Team " +teamName + " created";
 
 }
 
-function setTeam(justChannel, teamName){
+function setTeam(justUser, teamName){
 
     if(teamName == "") {
         return "Plass enter team name following command. (ex: !setteam Final Boss)";
     }
     if(typeof teamsData[teamName] == "undefined"){
-        usersData[justChannel].team = teamName;
+        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+
         newTeam(teamName);
     } else {
         //archive old team name
-        usersData[justChannel].pastTeams.push(teamsData[teamName].team);
+        usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData[teamName].team);
 
         //set new name
-        usersData[justChannel].team = teamName;
+        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
         teamsData[teamName].team = teamName;
     }
     updateDataFiles(usersData, teamsData, scrimsData);
@@ -81,9 +83,9 @@ function setTeam(justChannel, teamName){
 
 }
 
-function newScrim( channel, team1, team2){
+function newScrim( user, team1, team2){
     var newScrimID = 's' + (scrimsData.total+1);
-    usersData[channel].currentScrim = newScrimID;
+    usersData.find(function (res) { return res.name === user; }).currentScrim = newScrimID;
     teamsData[team1].currentScrim = newScrimID;
     if(typeof teamsData[team2] == "undefined"){
         newTeam(team2);
@@ -203,16 +205,16 @@ var options = {
 
 var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
-    var justChannel = channel.substring(1);
+    var justUser = channel.substring(1);
 
-    if(typeof usersData[justChannel] == "undefined"){
-        newChannel(justChannel);
+    if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
+        newChannel(justUser);
     }
 
-    var currentScrimID = usersData[justChannel].currentScrim;
+    var currentScrimID = usersData.find(function (res) { return res.name === justUser; }).currentScrim;
 
     //determing player team and opponent
-    var teamName = usersData[justChannel].team;
+    var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
     var playerTeam = teamsData[teamName];
     var opponentsTeamName;
     var teamNames = helpers.getTeams(currentScrimID);
@@ -228,7 +230,7 @@ client.on("chat", function(channel, user, message, self) {
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
-        if(usersData[justChannel].team == "" && split[0] !=="!setteam"){
+        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam"){
             client.say(channel, "Team must be set using. !setteam");
             return;
         }
@@ -245,7 +247,7 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!setteam":
                 var newTeamName = message.substring(9);
-                var result = setTeam(justChannel, newTeamName);
+                var result = setTeam(justUser, newTeamName);
                 client.say(channel, result);
                 break;
             case "!win":
@@ -261,11 +263,11 @@ client.on("chat", function(channel, user, message, self) {
             case "!newseries":
                 //
                 var newOpponentName = message.substring(11);
-                var result = newScrim( justChannel, teamName, newOpponentName);
+                var result = newScrim( justUser, teamName, newOpponentName);
                 client.say(channel, result);
                 break;
             case "!finishseries":
-                var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justChannel);
+                var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justUser);
                 client.say(channel, finishString);
                 break;
             case "!score":

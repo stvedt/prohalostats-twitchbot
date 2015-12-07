@@ -1,11 +1,12 @@
-{
-    "norwegiansven": {
+[
+    {
+        "name": "norwegiansven",
         "team": "EnVyUs",
         "pastTeams": [
             "Final Boss"
         ],
         "xuid": "",
-        "currentScrim": "s13",
+        "currentScrim": "s15",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -53,7 +54,8 @@
             }
         ]
     },
-    "imikwen": {
+    {
+        "name": "imikwen",
         "team": "EnVyUs",
         "pastTeams": [
             null,
@@ -63,4 +65,4 @@
         "currentScrim": "s14",
         "pastScrims": []
     }
-}
+]
