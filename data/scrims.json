@@ -1,0 +1,148 @@
+{
+    "s1": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s2": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s3": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s4": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s5": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "CLG": {
+            "score": 0
+        },
+        "matches": [
+            "111111",
+            "222222"
+        ],
+        "completed": true
+    },
+    "s6": {
+        "EnVyUs": {
+            "score": 0
+        },
+        "Test": {
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    "total": 13,
+    "s7": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "Test2": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
+    },
+    "s8": {
+        "EnVyUs": {
+            "score": 1
+        },
+        "Test3": {
+            "score": 0
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s9": {
+        "EnVyUs": {
+            "score": 2
+        },
+        "Believe The Hype": {
+            "score": 2
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s10": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "Triggers Down": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": false
+    },
+    "s11": {
+        "EnVyUs": {
+            "score": 6
+        },
+        "Triggers Down": {
+            "score": 2
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s12": {
+        "Final Boss": {
+            "score": 1
+        },
+        "EnVyUs": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s13": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "5k": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": true
+    }
+}

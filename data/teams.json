@@ -1,0 +1,61 @@
+{
+    "EnVyUs": {
+        "currentScrim": "s13",
+        "pastScrims": [
+            "s1",
+            "s2",
+            "s3",
+            "s4",
+            "s5",
+            "s6",
+            "s7",
+            "s8",
+            "s9",
+            "s10",
+            "s11",
+            "s12",
+            "s13"
+        ]
+    },
+    "Optic": {
+        "currentScrim": 6,
+        "pastScrims": []
+    },
+    "Test": {
+        "currentScrim": 6,
+        "pastScrims": []
+    },
+    "Test2": {
+        "currentScrim": "s7",
+        "pastScrims": []
+    },
+    "Test3": {
+        "currentScrim": "s8",
+        "pastScrims": [
+            "s8"
+        ]
+    },
+    "Believe The Hype": {
+        "currentScrim": "s9",
+        "pastScrims": []
+    },
+    "Triggers Down": {
+        "currentScrim": "s11",
+        "pastScrims": [
+            "s11"
+        ]
+    },
+    "Final Boss": {
+        "currentScrim": "s12",
+        "pastScrims": [
+            "s12"
+        ],
+        "team": "Final Boss"
+    },
+    "5k": {
+        "currentScrim": "s13",
+        "pastScrims": [
+            "s13"
+        ]
+    }
+}
