@@ -160,6 +160,17 @@ function getScore(scrimID, usersTeam, opponentsTeam){
     }
 }
 
+function getAllTeams(){
+    var teamNames = [];
+    for ( property in teamsData ) {
+        teamNames.push(property);
+    }
+
+    var teams = teamNames.toString();
+    console.log(teams);
+    return teams;
+}
+
 function getTeams(scrimID){
     var scrim = scrimsData[scrimID];
     var teamNames = [];
@@ -256,6 +267,12 @@ client.on("chat", function(channel, user, message, self) {
                 //
                 var scoreString = getScore(currentScrimID, teamName, opponentsTeamName);
                 client.say(channel, scoreString);
+                break;
+            case "!getteams":
+                //
+                var teamsString = getAllTeams();
+                client.say(channel, teamsString);
+                break;
         }
     }
 });
