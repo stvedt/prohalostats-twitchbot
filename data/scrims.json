@@ -74,7 +74,7 @@
         "matches": [],
         "completed": true
     },
-    "total": 12,
+    "total": 13,
     "s7": {
         "EnVyUs": {
             "score": 3
@@ -117,7 +117,7 @@
     },
     "s11": {
         "EnVyUs": {
-            "score": 5
+            "score": 6
         },
         "Triggers Down": {
             "score": 2
@@ -130,6 +130,16 @@
             "score": 1
         },
         "EnVyUs": {
+            "score": 1
+        },
+        "matches": [],
+        "completed": true
+    },
+    "s13": {
+        "EnVyUs": {
+            "score": 3
+        },
+        "5k": {
             "score": 1
         },
         "matches": [],
