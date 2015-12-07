@@ -65,6 +65,8 @@ function setTeam(justChannel, teamName){
     if(typeof teamsData[teamName] == "undefined"){
         channelsData[justChannel].team = teamName;
         newTeam(teamName);
+    } else if(teamName =="") {
+        return "Plass enter team name following command. (ex: !setteam Final Boss)";
     } else {
         //archive old team name
         channelsData[justChannel].pastTeams.push(teamsData[teamName].team);
@@ -242,7 +244,8 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!setteam":
                 var newTeamName = message.substring(9);
-                setTeam(justChannel, newTeamName);
+                var result = setTeam(justChannel, newTeamName);
+                client.say(channel, result);
                 break;
             case "!win":
                 //
