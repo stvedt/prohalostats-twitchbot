@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+//Routes
 var indexRoutes = require('./routes/index');
 var channelRoutes = require('./routes/users');
 
@@ -19,6 +20,31 @@ var helpers = require('./helpers.js');
 var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
+//Twitch Login Auth
+var TWITCH_APP_KEYS= require('./keys/twitch-app');
+var passport       = require("passport");
+var twitchStrategy = require("passport-twitch").Strategy;
+ 
+passport.use(new twitchStrategy({
+    clientID: TWITCH_APP_KEYS.client,
+    clientSecret: TWITCH_APP_KEYS.secret,
+    callbackURL: "http://127.0.0.1:3001/bot/auth/twitch/callback",
+    scope: "user_read"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ twitchId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+app.get("/bot/auth/twitch", passport.authenticate("twitch"));
+app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
+    // Successful authentication, redirect home. 
+    res.redirect("/bot/");
+});
+
+//Twitch username login key for bot
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
 //Twitch Bot
@@ -33,7 +59,6 @@ function join(channel, user){
     if(channel == "#norwegiansven"){
         return true;
     }
-
 }
 
 function newChannel(channel){
