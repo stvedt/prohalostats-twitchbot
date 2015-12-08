@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <% include partials/head.ejs %>
     <title>PRO Halo Stats - Scrim Bot Commands</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
     <style type="text/css">
         .command-list { padding-left: 20px; }
         .command { margin-bottom: 30px; }
@@ -11,67 +12,76 @@
     </style>
   </head>
   <body>
-    <h1>Set Up</h1>
-    <hr>
-    <div class="command-list">
-        <div class="command">
-            <h3>Step 1 - Get Bot in Your Chat</h3>
-            <p>To get the bot in your channel please run <strong>!join</strong> from <a href="http://www.twitch.tv/norwegiansven" target="_blank">THIS CHANNEL</a> and the bot will join whatever channel you are logged in as.</p>
+    <% include partials/header.ejs %>
+
+    <div class="container">
+        <h1>Set Up</h1>
+        <hr>
+        <div class="command-list">
+            <div class="command">
+                <h3>Step 1 - Get Bot in Your Chat</h3>
+                <p>To get the bot in your channel please run <strong>!join</strong> from <a href="http://www.twitch.tv/norwegiansven" target="_blank">THIS CHANNEL</a> and the bot will join whatever channel you are logged in as.</p>
+            </div>
+            <div class="command">
+                <h3>Step 2 - Set Your Team</h3>
+                <p>Run the <strong>!setteam <i>Insert Team Name</i></strong> command (replacing text in italics with your team's name) in your channel.</p>
+            </div>
+            <div class="command">
+                <h3>Step 3 - Play a Series</h3>
+                <p>Start playing a series using the <strong>!newseries <i>Insert Opponent's Team Name</i></strong> command.</p>
+                <p>As matches are won or lost use <strong>!win</strong> and <strong>!loss</strong> respectively.</p>
+                <p>When a series is complete run <strong>!finishseries</strong> and the use of !win and !loss will be stopped and !score will reflect that the series is complete.</p>
+            </div>
+            <div class="command">
+                <h3>Step 4 - Add Score to OBS</h3>
+                <p>I have created a scoreboard which may be pulled into your stream with CLRBrowser. That may be found here: <strong>http://prohalostats.com/bot/channel/<i>insertTwitchUsername</i>/score</strong></p>
+            </div>
         </div>
-        <div class="command">
-            <h3>Step 2 - Set Your Team</h3>
-            <p>Run the <strong>!setteam <i>Insert Team Name</i></strong> command (replacing text in italics with your team's name) in your channel.</p>
+        <h1>Scrim Bot Commands</h1>
+        <hr>
+        <div class="command-list">
+            <div class="command">
+                <h3>!commands</h3>
+                <p>Provides the URL of this page.</p>
+            </div>
+            <div class="command">
+                <h3>!join</h3>
+                <p>Run this command <a href="http://www.twitch.tv/norwegiansven" target="_blank">this channels chat</a> to tell the bot to join your channel.</p>
+            </div>
+            <div class="command">
+                <h3>!getteams</h3>
+                <p>Returns a list of all teams using ProHaloStats.</p>
+            </div>
+            <div class="command">
+                <h3>!setteam <i>team name</i></h3>
+                <p>Set the team you will be playing scrims for. Run before using the rest of commands once or when a team change occurs.</p>
+            </div>
+            <div class="command">
+                <h3>!newseries <i>opponent</i></h3>
+                <p>Starts a new series with a score of 0-0. Replace <i>oppenent</i> with opposing team's name.</p>
+            </div>
+            <div class="command">
+                <h3>!finishseries</h3>
+                <p>Completes the current series and archives the store.</p>
+            </div>
+            <div class="command">
+                <h3>!win</h3>
+                <p>Logs a win for your team.</p>
+            </div>
+            <div class="command">
+                <h3>!loss</h3>
+                <p>Logs a loss for your team.</p>
+            </div>
+            <div class="command">
+                <h3>!score</h3>
+                <p>Returns the current score of the series</p>
+            </div>
         </div>
-        <div class="command">
-            <h3>Step 3 - Play a Series</h3>
-            <p>Start playing a series using the <strong>!newseries <i>Insert Opponent's Team Name</i></strong> command.</p>
-            <p>As matches are won or lost use <strong>!win</strong> and <strong>!loss</strong> respectively.</p>
-            <p>When a series is complete run <strong>!finishseries</strong> and the use of !win and !loss will be stopped and !score will reflect that the series is complete.</p>
-        </div>
-        <div class="command">
-            <h3>Step 4 - Add Score to OBS</h3>
-            <p>I have created a scoreboard which may be pulled into your stream with CLRBrowser. That may be found here: <strong>http://prohalostats.com/bot/channel/<i>insertTwitchUsername</i>/score</strong></p>
-        </div>
-    </div>
-    <h1>Scrim Bot Commands</h1>
-    <hr>
-    <div class="command-list">
-        <div class="command">
-            <h3>!commands</h3>
-            <p>Provides the URL of this page.</p>
-        </div>
-        <div class="command">
-            <h3>!join</h3>
-            <p>Run this command <a href="http://www.twitch.tv/norwegiansven" target="_blank">this channels chat</a> to tell the bot to join your channel.</p>
-        </div>
-        <div class="command">
-            <h3>!getteams</h3>
-            <p>Returns a list of all teams using ProHaloStats.</p>
-        </div>
-        <div class="command">
-            <h3>!setteam <i>team name</i></h3>
-            <p>Set the team you will be playing scrims for. Run before using the rest of commands once or when a team change occurs.</p>
-        </div>
-        <div class="command">
-            <h3>!newseries <i>opponent</i></h3>
-            <p>Starts a new series with a score of 0-0. Replace <i>oppenent</i> with opposing team's name.</p>
-        </div>
-        <div class="command">
-            <h3>!finishseries</h3>
-            <p>Completes the current series and archives the store.</p>
-        </div>
-        <div class="command">
-            <h3>!win</h3>
-            <p>Logs a win for your team.</p>
-        </div>
-        <div class="command">
-            <h3>!loss</h3>
-            <p>Logs a loss for your team.</p>
-        </div>
-        <div class="command">
-            <h3>!score</h3>
-            <p>Returns the current score of the series</p>
-        </div>
-    </div>
+    </div><!-- /.container -->
+    
+
+    <% include partials/footer.ejs %>
+
+    <% include partials/footer-scripts.ejs %>
   </body>
 </html>

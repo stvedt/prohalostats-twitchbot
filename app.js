@@ -17,6 +17,7 @@ var scrimsData = require('./data/scrims');
 var helpers = require('./helpers.js');
 
 var app = express();
+app.locals.siteTile = "Pro Halo Stats";
 
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 
