@@ -12,7 +12,7 @@ function shapeViewData(userName){
     var opponentsTeam;
     var scrimID = thisUser.currentScrim;
     var teams = helpers.getTeams(scrimID);
-    var scrim = scrimsData.find(function (res) { return res.id === scrim; })
+    var scrim = scrimsData.find(function (res) { return res.id === scrimID; })
 
     if( scrim.team1.name === usersTeam){
         usersTeam = 'team1';
@@ -36,16 +36,20 @@ function shapeViewData(userName){
 }
 
 /* GET home page. */
-router.get('/:channelName?/score/', function(req, res, next) {
-    var channelName = req.params.channelName;
-    var viewData = shapeViewData(channelName);
-
-  res.render('channel-score', viewData );
+router.use('/:userName?/', function(req, res, next) {
+	res.render('user', viewData );
 });
 
-router.use('/:channelName?/score/get/',function(req, res, next){
-    var channelName = req.params.channelName;
-    var viewData = shapeViewData(channelName);
+router.get('/:userName?/score/', function(req, res, next) {
+    var userName = req.params.userName;
+    var viewData = shapeViewData(userName);
+
+  res.render('user-score', viewData );
+});
+
+router.use('/:userName?/score/get/',function(req, res, next){
+    var userName = req.params.userName;
+    var viewData = shapeViewData(userName);
     res.json(viewData);
 });
 

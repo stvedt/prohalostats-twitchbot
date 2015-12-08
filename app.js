@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 
 var indexRoutes = require('./routes/index');
-var channelRoutes = require('./routes/channels');
+var channelRoutes = require('./routes/users');
 
 //DATA
 var usersData = require('./data/users');
@@ -325,7 +325,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/bot', indexRoutes);
-app.use('/bot/channel', channelRoutes);
+app.use('/bot/user', channelRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
