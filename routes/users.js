@@ -5,7 +5,7 @@ var scrimsData = require('../data/scrims');
 var teamsData = require('../data/teams');
 var router = express.Router();
 
-function shapeViewData(userName){
+function shapeScoreViewData(userName){
 
     var thisUser = usersData.find(function (res) { return res.name === userName; });
     var usersTeam = thisUser.team;
@@ -42,14 +42,14 @@ router.use('/:userName?/', function(req, res, next) {
 
 router.get('/:userName?/score/', function(req, res, next) {
     var userName = req.params.userName;
-    var viewData = shapeViewData(userName);
+    var viewData = shapeScoreViewData(userName);
 
   res.render('user-score', viewData );
 });
 
 router.use('/:userName?/score/get/',function(req, res, next){
     var userName = req.params.userName;
-    var viewData = shapeViewData(userName);
+    var viewData = shapeScoreViewData(userName);
     res.json(viewData);
 });
 
