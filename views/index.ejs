@@ -20,17 +20,17 @@
         <div class="command-list">
             <div class="command">
                 <h3>Step 1 - Get Bot in Your Chat</h3>
-                <p>To get the bot in your channel please run <strong>!join</strong> from <a href="http://www.twitch.tv/norwegiansven" target="_blank">THIS CHANNEL</a> and the bot will join whatever channel you are logged in as.</p>
+                <p>To get the bot in your channel please run <kbd>!join</kbd> from <a href="http://www.twitch.tv/norwegiansven" target="_blank">THIS CHANNEL</a> and the bot will join whatever channel you are logged in as.</p>
             </div>
             <div class="command">
                 <h3>Step 2 - Set Your Team</h3>
-                <p>Run the <strong>!setteam <i>Insert Team Name</i></strong> command (replacing text in italics with your team's name) in your channel.</p>
+                <p>Run the <kbd>!setteam <i>Insert Team Name</i></kbd> command (replacing text in italics with your team's name) in your channel.</p>
             </div>
             <div class="command">
                 <h3>Step 3 - Play a Series</h3>
-                <p>Start playing a series using the <strong>!newseries <i>Insert Opponent's Team Name</i></strong> command.</p>
-                <p>As matches are won or lost use <strong>!win</strong> and <strong>!loss</strong> respectively.</p>
-                <p>When a series is complete run <strong>!finishseries</strong> and the use of !win and !loss will be stopped and !score will reflect that the series is complete.</p>
+                <p>Start playing a series using the <kbd>!newseries <i>Insert Opponent's Team Name</i></kbd> command.</p>
+                <p>As matches are won or lost use <kbd>!win</kbd> and <kbd>!loss</kbd> respectively.</p>
+                <p>When a series is complete run <kbd>!finishseries</kbd> and the use of !win and !loss will be stopped and !score will reflect that the series is complete.</p>
             </div>
             <div class="command">
                 <h3>Step 4 - Add Score to OBS</h3>
@@ -41,39 +41,39 @@
         <hr>
         <div class="command-list">
             <div class="command">
-                <h3>!commands</h3>
+                <h3><kbd>!commands</kbd></h3>
                 <p>Provides the URL of this page.</p>
             </div>
             <div class="command">
-                <h3>!join</h3>
+                <h3><kbd>!join</kbd></h3>
                 <p>Run this command <a href="http://www.twitch.tv/norwegiansven" target="_blank">this channels chat</a> to tell the bot to join your channel.</p>
             </div>
             <div class="command">
-                <h3>!getteams</h3>
+                <h3><kbd>!getteams</kbd></h3>
                 <p>Returns a list of all teams using ProHaloStats.</p>
             </div>
             <div class="command">
-                <h3>!setteam <i>team name</i></h3>
+                <h3><kbd>!setteam <i>team name</i></kbd></h3>
                 <p>Set the team you will be playing scrims for. Run before using the rest of commands once or when a team change occurs.</p>
             </div>
             <div class="command">
-                <h3>!newseries <i>opponent</i></h3>
+                <h3><kbd>!newseries <i>opponent</i></kbd></h3>
                 <p>Starts a new series with a score of 0-0. Replace <i>oppenent</i> with opposing team's name.</p>
             </div>
             <div class="command">
-                <h3>!finishseries</h3>
+                <h3><kbd>!finishseries</kbd></h3>
                 <p>Completes the current series and archives the store.</p>
             </div>
             <div class="command">
-                <h3>!win</h3>
+                <h3><kbd>!win</kbd></h3>
                 <p>Logs a win for your team.</p>
             </div>
             <div class="command">
-                <h3>!loss</h3>
+                <h3><kbd>!loss</kbd></h3>
                 <p>Logs a loss for your team.</p>
             </div>
             <div class="command">
-                <h3>!score</h3>
+                <h3><kbd>!score</kbd></h3>
                 <p>Returns the current score of the series</p>
             </div>
         </div>
@@ -108,19 +108,27 @@
                 <p>Similar to the user page. There will be a page with team stats.</p>
             </div>
             <div class="command">
-                <h3>!win !loss Limiting</h3>
-                <p>As it stands !win and !loss can be spammed. I will limit it so one scrim regardless of the channel the commands are run from cannot be excessive. Two twitch channels watching the same scrim using the same bot. Would report more wins or losses than occuring. Will limit to one use of score updating to every 5 mins.</p>
+                <h3>Mod/Broadcaster Only Commands</h3>
+                <p>Set Permissions to any of the major commands to only be used by responsible twitchers. <kbd>!setteam</kbd>, <kbd>!newseries</kbd>, <kbd>!finishseries</kbd> will be broadcaster only. <kbd>!win</kbd> and <kbd>!loss</kbd> will be mod only.</p>
             </div>
             <div class="command">
-                <h3>!editscore</i></h3>
-                <p>If an incorrect !win or !loss is entered this will provide a way to resolve the score.</p>
+                <h3>Autojoin</h3>
+                <p>Instead of typing !join from NorwegianSvens Channel if you have used the bot before it will automatically join your channel when it needs to reboot.</p>
+            </div>
+            <div class="command">
+                <h3><kbd>!win</kbd> <kbd>!loss</kbd> Limiting</h3>
+                <p>As it stands <kbd>!win</kbd> and <kbd>!loss</kbd> can be spammed. I will limit it so one scrim regardless of the channel the commands are run from cannot be excessive. Two twitch channels watching the same scrim using the same bot. Would report more wins or losses than occuring. Will limit to one use of score updating to every 5 mins.</p>
+            </div>
+            <div class="command">
+                <h3><kbd>!editscore</kbd></i></h3>
+                <p>If an incorrect <kbd>!win</kbd> or <kbd>!loss</kbd> is entered this will provide a way to resolve the score.</p>
             </div>
             <div class="command">
                 <h3>Add date to scrim</i></h3>
-                <p>Date of scrim will be added based on when the <strong>!newseries</strong> command is run.</p>
+                <p>Date of scrim will be added based on when the <kbd>!newseries</kbd> command is run.</p>
             </div>
             <div class="command">
-                <h3>!setgt</h3>
+                <h3><kbd>!setgt</kbd></h3>
                 <p>This will set the users gamertag. Which will be used to as the players display name instead of their twitch username.</p>
             </div>
         </div>
