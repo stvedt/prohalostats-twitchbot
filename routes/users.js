@@ -21,7 +21,7 @@ function shapeScoreViewData(userName){
         usersTeam = 'team2';
         opponentsTeam = 'team1';
     }
-   
+
     var viewData = {
         "player": {
             "teamName" : scrim[usersTeam].name,
@@ -35,8 +35,49 @@ function shapeScoreViewData(userName){
     return viewData;
 }
 
+function shapeUserViewData(userName){
+	var thisUser = usersData.find(function (res) { return res.name === userName; });
+
+	var pastScrims = [];
+
+	for(i=0; i < thisUser.pastScrims.length; i++){
+		var scrimID = thisUser.pastScrims[i].scrimID;
+		var usersTeam = thisUser.pastScrims[i].team;
+		var scrim = scrimsData.find(function (res) { return res.id === scrimID; });
+
+		if( scrim.team1.name === usersTeam){
+	        usersTeam = 'team1';
+	        opponentsTeam = 'team2';
+	    } else {
+	        usersTeam = 'team2';
+	        opponentsTeam = 'team1';
+	    }
+
+		pastScrims.push({
+			"id": scrimID,
+            //"date": '12/7/2015',
+			"team": scrim[usersTeam].name,
+            "opponent": scrim[opponentsTeam].name,
+            "score": scrim[usersTeam].score,
+            "opponentScore": scrim[opponentsTeam].score
+		})
+	}
+
+	var viewData = {
+		"name": thisUser.name,
+		"team": thisUser.team,
+		"pastTeams": thisUser.pastTeams,
+        "pastScrims": pastScrims
+	}
+
+	return viewData;
+
+}
+
 /* GET home page. */
 router.use('/:userName?/', function(req, res, next) {
+	var userName = req.params.userName;
+    var viewData = shapeUserViewData(userName);
 	res.render('user', viewData );
 });
 

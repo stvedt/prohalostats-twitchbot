@@ -15,8 +15,29 @@
     <% include partials/header.ejs %>
 
     <div class="container">
-       <h1></h1>
-       <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <h1><%= name %></h1>
+                <p>Team: <%= team %></p>
+            </div>
+            <div class="col-md-6">
+                <h2>Past Teams:</h2>
+                <ul>
+                <% for(var i=0; i<pastTeams.length; i++) {%>
+                   <li><%= pastTeams[i] %></li>
+                <% } %>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2> Scrim History</h2>
+                <% for(var i=0; i<pastScrims.length; i++) {%>
+                   <li><%= pastScrims[i].opponent%>, <%= pastScrims[i].score %> - <%= pastScrims[i].opponentScore %></li>
+                <% } %>
+            </div>
+        </div>
     </div><!-- /.container -->
     
 
