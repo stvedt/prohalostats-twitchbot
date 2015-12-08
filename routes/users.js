@@ -74,13 +74,6 @@ function shapeUserViewData(userName){
 
 }
 
-/* GET home page. */
-router.use('/:userName?/', function(req, res, next) {
-	var userName = req.params.userName;
-    var viewData = shapeUserViewData(userName);
-	res.render('user', viewData );
-});
-
 router.get('/:userName?/score/', function(req, res, next) {
     var userName = req.params.userName;
     var viewData = shapeScoreViewData(userName);
@@ -92,6 +85,12 @@ router.use('/:userName?/score/get/',function(req, res, next){
     var userName = req.params.userName;
     var viewData = shapeScoreViewData(userName);
     res.json(viewData);
+});
+
+router.use('/:userName?/', function(req, res, next) {
+    var userName = req.params.userName;
+    var viewData = shapeUserViewData(userName);
+    res.render('user', viewData );
 });
 
 module.exports = router;
