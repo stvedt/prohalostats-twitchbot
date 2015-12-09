@@ -61,10 +61,17 @@
     {
         "name": "imikwen",
         "team": "EnVyUs",
-        "pastTeams": [
-        ],
+        "pastTeams": [],
         "xuid": "",
         "currentScrim": "s14",
+        "pastScrims": []
+    },
+    {
+        "name": "svenhalo",
+        "team": "",
+        "pastTeams": [],
+        "xuid": "",
+        "currentScrim": "",
         "pastScrims": []
     }
 ]
