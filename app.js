@@ -238,6 +238,11 @@ function getAllTeams(){
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
 
+var chatChannels = ["#norwegiansven"];
+if (app.get('env') === 'development') {
+    chatChannels = ["#svenhalo"];
+}
+
 var options = {
     options: {
         debug: true
@@ -250,7 +255,7 @@ var options = {
         username: "prohaloscrims",
         password: TWITCH_OAUTH_KEY
     },
-    channels: ["#norwegiansven"]
+    channels: chatChannels
 };
 
 var client = new irc.client(options);
@@ -259,6 +264,7 @@ client.on("chat", function(channel, user, message, self) {
 
     if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
         newChannel(justUser);
+        return;
     }
 
     var currentScrimID = usersData.find(function (res) { return res.name === justUser; }).currentScrim;
@@ -266,21 +272,26 @@ client.on("chat", function(channel, user, message, self) {
     //determing player team and opponent
     var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
-    var opponentsTeamName;
-    var teamNames = helpers.getTeams(currentScrimID);
-    for(i=0; i<=1; i++){
-        if (teamNames[i] !== playerTeam){
-            opponentsTeamName = teamNames[i];
+    var opponentsTeamName, teamNames;
+
+    if(currentScrimID !== ""){
+        teamNames = helpers.getTeams(currentScrimID);
+        for(i=0; i<=1; i++){
+            if (teamNames[i] !== playerTeam){
+                opponentsTeamName = teamNames[i];
+            }
         }
     }
 
     //mod only:
     if(user["user-type"] === "mod") {}
+
+        console.log( user );
     
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
-        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam"){
+        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam" && user.username == justUser){
             client.say(channel, "Team must be set using. !setteam");
             return;
         }
@@ -364,6 +375,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+    console.log('dev');
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
