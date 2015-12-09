@@ -47,6 +47,7 @@ app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRe
 
 //Twitch username login key for bot
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
+var ENV_VAR = require('./keys/env');
 
 //Twitch Bot
 function updateDataFiles( updatedusersData , updatedTeamsData, updatedScrimsData ){
@@ -238,6 +239,11 @@ function getAllTeams(){
 
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
+var chatChannels = ["#norwegiansven"];
+
+if( ENV_VAR == "dev"){
+    chatChannels = ["#svenhalo"];
+}
 
 var chatChannels = ["#norwegiansven"];
 // if (app.get('env') === 'development') {
