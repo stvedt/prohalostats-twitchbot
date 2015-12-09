@@ -20,6 +20,7 @@ var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
+var ENV_VAR = require('./keys/env');
 
 //Twitch Bot
 function updateDataFiles( updatedusersData , updatedTeamsData, updatedScrimsData ){
@@ -212,6 +213,11 @@ function getAllTeams(){
 
 // Do NOT include this line if you are using the built js version!
 var irc = require("tmi.js");
+var chatChannels = ["#norwegiansven"];
+
+if( ENV_VAR == "dev"){
+    chatChannels = ["#svenhalo"];
+}
 
 var options = {
     options: {
@@ -225,7 +231,7 @@ var options = {
         username: "prohaloscrims",
         password: TWITCH_OAUTH_KEY
     },
-    channels: ["#norwegiansven"]
+    channels: chatChannels
 };
 
 var client = new irc.client(options);
