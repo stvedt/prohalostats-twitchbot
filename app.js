@@ -28,7 +28,8 @@ var twitchStrategy = require("passport-twitch").Strategy;
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
-    callbackURL: "http://127.0.0.1:3001/bot/auth/twitch/callback",
+    redirect_uri: "http://prohalostats.com",
+    callbackURL: "http://prohalostats.com/bot/auth/twitch/callback",
     scope: "user_read"
   },
   function(accessToken, refreshToken, profile, done) {
