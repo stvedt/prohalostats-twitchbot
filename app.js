@@ -28,7 +28,7 @@ var twitchStrategy = require("passport-twitch").Strategy;
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
-    redirect_uri: "http://prohalostats.com",
+    redirect_uri: "http://prohalostats.com/bot/",
     callbackURL: "http://prohalostats.com/bot/auth/twitch/callback",
     scope: "user_read"
   },
@@ -240,9 +240,9 @@ function getAllTeams(){
 var irc = require("tmi.js");
 
 var chatChannels = ["#norwegiansven"];
-if (app.get('env') === 'development') {
-    chatChannels = ["#svenhalo"];
-}
+// if (app.get('env') === 'development') {
+//     chatChannels = ["#svenhalo"];
+// }
 
 var options = {
     options: {
