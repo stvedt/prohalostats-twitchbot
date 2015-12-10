@@ -205,6 +205,21 @@
             "score": 1
         },
         "matches": [],
-        "completed": false
+        "completed": false,
+        "scoreUpdate": 0
+    },
+    {
+        "id": "s17",
+        "team1": {
+            "name": "EnVyUs",
+            "score": 18
+        },
+        "team2": {
+            "name": "Final Boss",
+            "score": 9
+        },
+        "matches": [],
+        "completed": false,
+        "scoreUpdated": 1449724409917
     }
 ]

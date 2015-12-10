@@ -1,7 +1,7 @@
 [
     {
         "name": "EnVyUs",
-        "currentScrim": "s16",
+        "currentScrim": "s17",
         "pastScrims": [
             "s1",
             "s2",
@@ -57,7 +57,7 @@
     },
     {
         "name": "Final Boss",
-        "currentScrim": "s12",
+        "currentScrim": "s17",
         "pastScrims": [
             "s12"
         ],
