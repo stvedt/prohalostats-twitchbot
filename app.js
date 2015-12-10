@@ -105,7 +105,8 @@ function newScrim( user, team1, team2){
             "score": 0
         },
         "matches": [],
-        "completed": false
+        "completed": false,
+        "scoreUpdated": Date.now()
     });
 
     updateDataFiles(usersData, teamsData, scrimsData);
@@ -142,6 +143,10 @@ function logWin(scrimID, usersTeam){
 
     if( thisScrim.completed == true ){
         return "Scrim Has Ended";
+    }
+
+    if ( Date.now() <= thisScrim.scoreUpdated + (5*60) ){
+        return "Wait 5 minutes before updating";
     }
 
     if( thisScrim.team1.name === usersTeam){
