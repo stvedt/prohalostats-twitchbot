@@ -23,24 +23,38 @@ app.locals.siteTile = "Pro Halo Stats";
 //Twitch Login Auth
 var TWITCH_APP_KEYS= require('./keys/twitch-app');
 var passport       = require("passport");
-var twitchStrategy = require("passport-twitch").Strategy;
+var twitchStrategy = require("passport-twitchtv").Strategy;
+
+//app.use(passport.initialize());
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+ 
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
  
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
-    redirect_uri: "http://127.0.0.1:3001/bot/",
-    callbackURL: "http://127.0.0.1:3001/bot/auth/twitch/callback",
+    redirect_uri: "http://localhost:3001/bot/",
+    callbackURL: "http://localhost:3001/bot/auth/twitch/callback",
     scope: "user_read"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ twitchId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
+    console.log('hi');
+    // User.findOrCreate({ twitchId: profile.id }, function (err, user) {
+    //   return done(err, user);
+    // });
   }
 ));
-
-app.get("/bot/auth/twitch", passport.authenticate("twitch"));
-app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
+app.use('/auth/',function(req, res, next){
+    var viewData = {"url":"hi"};
+    res.json(viewData);
+});
+app.get("/bot/auth/twitch", passport.authenticate("twitchtv"));
+app.get("/bot/auth/twitch/callback", passport.authenticate("twitchtv", { failureRedirect: "/bot/" }), function(req, res) {
     // Successful authentication, redirect home. 
     res.redirect("/bot/");
 });
