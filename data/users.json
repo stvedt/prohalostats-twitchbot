@@ -1,11 +1,12 @@
-{
-    "norwegiansven": {
+[
+    {
+        "name": "norwegiansven",
         "team": "EnVyUs",
         "pastTeams": [
             "Final Boss"
         ],
         "xuid": "",
-        "currentScrim": "s13",
+        "currentScrim": "s16",
         "pastScrims": [
             {
                 "scrimID": "s1",
@@ -50,19 +51,29 @@
             {
                 "scrimID": "s13",
                 "team": "EnVyUs"
+            },
+            {
+                "scrimID": "s15",
+                "team": "EnVyUs"
             }
         ]
     },
-    "svenhalo": {
-        "team": "Final Boss",
+    {
+        "name": "imikwen",
+        "team": "EnVyUs",
         "pastTeams": [],
         "xuid": "",
-        "currentScrim": "s12",
-        "pastScrims": [
-            {
-                "scrimID": "s12",
-                "team": "Final Boss"
-            }
-        ]
+        "currentScrim": "s14",
+        "pastScrims": []
+    },
+    {
+        "name": "svenhalo",
+        "team": "EnVyUs",
+        "pastTeams": [
+            "EnVyUs"
+        ],
+        "xuid": "",
+        "currentScrim": "s17",
+        "pastScrims": []
     }
-}
+]

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/head.ejs %>
+    <title>PRO Halo Stats - Scrim Bot Commands</title>
+    
+    <style type="text/css">
+        .command-list { padding-left: 20px; }
+        .command { margin-bottom: 30px; }
+        .command h3 { margin-bottom: 0; }
+        .command p { margin-top: 5px; }
+    </style>
+  </head>
+  <body>
+    <% include partials/header.ejs %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1><%= name %></h1>
+                <p>Team: <%= team %></p>
+            </div>
+            <div class="col-md-6">
+                <h2>Past Teams:</h2>
+                <ul>
+                <% for(var i=0; i<pastTeams.length; i++) {%>
+                   <li><%= pastTeams[i] %></li>
+                <% } %>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2> Scrim History</h2>
+                <% for(var i=0; i<pastScrims.length; i++) {%>
+                   <li><%= pastScrims[i].opponent%>, <%= pastScrims[i].score %> - <%= pastScrims[i].opponentScore %></li>
+                <% } %>
+            </div>
+        </div>
+    </div><!-- /.container -->
+    
+
+    <% include partials/footer.ejs %>
+
+    <% include partials/footer-scripts.ejs %>
+  </body>
+</html>

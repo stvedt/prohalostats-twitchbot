@@ -14,6 +14,8 @@
     "mongodb": "^2.0.49",
     "mongoose": "^4.2.9",
     "morgan": "~1.6.1",
+    "passport": "^0.3.2",
+    "passport-twitch": "^1.0.2",
     "serve-favicon": "~2.3.0",
     "tmi.js": "0.0.24"
   }

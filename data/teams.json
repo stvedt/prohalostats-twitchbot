@@ -1,6 +1,7 @@
-{
-    "EnVyUs": {
-        "currentScrim": "s13",
+[
+    {
+        "name": "EnVyUs",
+        "currentScrim": "s17",
         "pastScrims": [
             "s1",
             "s2",
@@ -14,48 +15,70 @@
             "s10",
             "s11",
             "s12",
-            "s13"
-        ]
+            "s13",
+            "s15"
+        ],
+        "team": "EnVyUs"
     },
-    "Optic": {
+    {
+        "name": "Optic",
         "currentScrim": 6,
         "pastScrims": []
     },
-    "Test": {
+    {
+        "name": "Test",
         "currentScrim": 6,
         "pastScrims": []
     },
-    "Test2": {
+    {
+        "name": "Test2",
         "currentScrim": "s7",
         "pastScrims": []
     },
-    "Test3": {
+    {
+        "name": "Test3",
         "currentScrim": "s8",
         "pastScrims": [
             "s8"
         ]
     },
-    "Believe The Hype": {
+    {
+        "name": "Believe The Hype",
         "currentScrim": "s9",
         "pastScrims": []
     },
-    "Triggers Down": {
-        "currentScrim": "s11",
+    {
+        "name": "Triggers Down",
+        "currentScrim": "s15",
         "pastScrims": [
-            "s11"
+            "s11",
+            "s15"
         ]
     },
-    "Final Boss": {
-        "currentScrim": "s12",
+    {
+        "name": "Final Boss",
+        "currentScrim": "s17",
         "pastScrims": [
             "s12"
         ],
         "team": "Final Boss"
     },
-    "5k": {
+    {
+        "name": "5k",
         "currentScrim": "s13",
         "pastScrims": [
             "s13"
         ]
+    },
+    {
+        "name": "Winterfox",
+        "currentScrim": "s14",
+        "pastScrims": [],
+        "team": "Winterfox"
+    },
+    {
+        "name": "Test12",
+        "currentScrim": "s16",
+        "pastScrims": []
     }
-}
+]
