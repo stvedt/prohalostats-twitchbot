@@ -136,7 +136,7 @@ function newScrim( user, team1, team2){
         },
         "matches": [],
         "completed": false,
-        "scoreUpdated": Date.now()
+        "scoreUpdated": (Date.now() - ((5*60)*1000))
     });
 
     updateDataFiles(usersData, teamsData, scrimsData);
