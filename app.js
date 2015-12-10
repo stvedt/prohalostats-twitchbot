@@ -175,7 +175,7 @@ function logWin(scrimID, usersTeam){
     var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
 
     if ( delayNotMet ){
-        return "Wait 5 minutes before updating";
+        return "Wait 1 minute before updating";
     } else {
         thisScrim.scoreUpdated = Date.now();
     }
@@ -205,7 +205,7 @@ function logLoss(scrimID, opponentsTeam){
     var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
 
     if ( delayNotMet ){
-        return "Wait 5 minutes before updating";
+        return "Wait 1 minute before updating";
     } else {
         thisScrim.scoreUpdated = Date.now();
     }

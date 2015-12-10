@@ -11,7 +11,7 @@ module.exports = {
     },
     checkCommandDelay: function(commandLastRan){
         var timeNow = Date.now();
-        var delay = 5 * (60 * 1000); //time is in miliseconds
+        var delay = 1 * (60 * 1000); //time is in miliseconds
         commandLastRanDelay = commandLastRan + delay;
         if ( timeNow <= commandLastRanDelay ){
             return true;
