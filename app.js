@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+//Routes
 var indexRoutes = require('./routes/index');
 var channelRoutes = require('./routes/users');
 
@@ -19,6 +20,32 @@ var helpers = require('./helpers.js');
 var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
+//Twitch Login Auth
+var TWITCH_APP_KEYS= require('./keys/twitch-app');
+var passport       = require("passport");
+var twitchStrategy = require("passport-twitch").Strategy;
+ 
+passport.use(new twitchStrategy({
+    clientID: TWITCH_APP_KEYS.client,
+    clientSecret: TWITCH_APP_KEYS.secret,
+    redirect_uri: "http://prohalostats.com/bot/",
+    callbackURL: "http://prohalostats.com/bot/auth/twitch/callback",
+    scope: "user_read"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ twitchId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+app.get("/bot/auth/twitch", passport.authenticate("twitch"));
+app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
+    // Successful authentication, redirect home. 
+    res.redirect("/bot/");
+});
+
+//Twitch username login key for bot
 var TWITCH_OAUTH_KEY = require('./keys/twitch');
 var ENV_VAR = require('./keys/env');
 
@@ -34,7 +61,6 @@ function join(channel, user){
     if(channel == "#norwegiansven"){
         return true;
     }
-
 }
 
 function newChannel(channel){
@@ -238,6 +264,11 @@ if( ENV_VAR == "dev"){
     chatChannels = ["#svenhalo"];
 }
 
+var chatChannels = ["#norwegiansven"];
+// if (app.get('env') === 'development') {
+//     chatChannels = ["#svenhalo"];
+// }
+
 var options = {
     options: {
         debug: true
@@ -259,6 +290,7 @@ client.on("chat", function(channel, user, message, self) {
 
     if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
         newChannel(justUser);
+        return;
     }
 
     var currentScrimID = usersData.find(function (res) { return res.name === justUser; }).currentScrim;
@@ -266,9 +298,11 @@ client.on("chat", function(channel, user, message, self) {
     //determing player team and opponent
     var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
-    var opponentsTeamName;
+
+    var opponentsTeamName, teamNames;
+
     if(currentScrimID !== ""){
-        var teamNames = helpers.getTeams(currentScrimID);
+        teamNames = helpers.getTeams(currentScrimID);
         for(i=0; i<=1; i++){
             if (teamNames[i] !== playerTeam){
                 opponentsTeamName = teamNames[i];
@@ -278,11 +312,13 @@ client.on("chat", function(channel, user, message, self) {
 
     //mod only:
     if(user["user-type"] === "mod") {}
+
+        console.log( user );
     
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
-        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam"){
+        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam" && user.username == justUser){
             client.say(channel, "Team must be set using. !setteam");
             return;
         }
@@ -366,6 +402,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+    console.log('dev');
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
