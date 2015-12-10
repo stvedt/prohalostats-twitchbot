@@ -38,6 +38,7 @@ function join(channel, user){
 }
 
 function newChannel(channel){
+    console.log('new channel');
     usersData.push({
         "name": channel,
         "team": "",
@@ -145,8 +146,12 @@ function logWin(scrimID, usersTeam){
         return "Scrim Has Ended";
     }
 
-    if ( Date.now() <= thisScrim.scoreUpdated + (5*60) ){
+    var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
+
+    if ( delayNotMet ){
         return "Wait 5 minutes before updating";
+    } else {
+        thisScrim.scoreUpdated = timeNow;
     }
 
     if( thisScrim.team1.name === usersTeam){
@@ -170,6 +175,15 @@ function logLoss(scrimID, opponentsTeam){
     if( thisScrim.completed == true ){
         return "Scrim Has Ended";
     }
+
+    var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
+
+    if ( delayNotMet ){
+        return "Wait 5 minutes before updating";
+    } else {
+        thisScrim.scoreUpdated = timeNow;
+    }
+
     if( thisScrim.team1.name === opponentsTeam){
         thisScrim.team1.score++;
     } else {
@@ -253,10 +267,12 @@ client.on("chat", function(channel, user, message, self) {
     var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
     var opponentsTeamName;
-    var teamNames = helpers.getTeams(currentScrimID);
-    for(i=0; i<=1; i++){
-        if (teamNames[i] !== playerTeam){
-            opponentsTeamName = teamNames[i];
+    if(currentScrimID !== ""){
+        var teamNames = helpers.getTeams(currentScrimID);
+        for(i=0; i<=1; i++){
+            if (teamNames[i] !== playerTeam){
+                opponentsTeamName = teamNames[i];
+            }
         }
     }
 
