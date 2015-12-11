@@ -20,6 +20,50 @@ var helpers = require('./helpers.js');
 var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
+// OAUTH MANUAL TRY
+var TWITCH_APP_KEYS= require('./keys/twitch-app');
+
+var oauth2 = require('simple-oauth2')({
+  clientID: TWITCH_APP_KEYS.client,
+  clientSecret: TWITCH_APP_KEYS.secret,
+  site: 'https://api.twitch.tv/kraken',
+  tokenPath: '/oauth2/token',
+  authorizationPath: '/oauth2/authorize?response_type=code'
+});
+
+// Authorization uri definition
+var authorization_uri = oauth2.authCode.authorizeURL({
+  redirect_uri: 'http://localhost:3000/callback',
+  scope: 'user_read',
+  state: '3(#0/!~'
+});
+
+// Initial page redirecting to Github
+app.get('/auth', function (req, res) {
+    res.redirect(authorization_uri);
+});
+
+// Callback service parsing the authorization token and asking for the access token
+app.get('/callback', function (req, res) {
+  var code = req.query.code;
+  console.log('/callback');
+  oauth2.authCode.getToken({
+    code: code,
+    redirect_uri: 'http://localhost:3001/callback'
+  }, saveToken);
+
+  function saveToken(error, result) {
+    if (error) { console.log('Access Token Error', error.message); }
+    token = oauth2.accessToken.create(result);
+  }
+});
+
+app.get('/login', function (req, res) {
+  res.send('Hello<br><a href="/auth">Log in with Github</a>');
+});
+
+
+
 //Twitch Login Auth
 var TWITCH_APP_KEYS= require('./keys/twitch-app');
 var passport       = require("passport");
