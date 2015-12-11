@@ -78,6 +78,7 @@ function join(channel, user){
 }
 
 function newChannel(channel){
+    console.log('new channel');
     usersData.push({
         "name": channel,
         "team": "",
@@ -145,7 +146,8 @@ function newScrim( user, team1, team2){
             "score": 0
         },
         "matches": [],
-        "completed": false
+        "completed": false,
+        "scoreUpdated": (Date.now() - ((5*60)*1000))
     });
 
     updateDataFiles(usersData, teamsData, scrimsData);
@@ -184,6 +186,14 @@ function logWin(scrimID, usersTeam){
         return "Scrim Has Ended";
     }
 
+    var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
+
+    if ( delayNotMet ){
+        return "Wait 1 minute before updating";
+    } else {
+        thisScrim.scoreUpdated = Date.now();
+    }
+
     if( thisScrim.team1.name === usersTeam){
         thisScrim.team1.score++;
     } else {
@@ -205,6 +215,15 @@ function logLoss(scrimID, opponentsTeam){
     if( thisScrim.completed == true ){
         return "Scrim Has Ended";
     }
+
+    var delayNotMet = helpers.checkCommandDelay(thisScrim.scoreUpdated);
+
+    if ( delayNotMet ){
+        return "Wait 1 minute before updating";
+    } else {
+        thisScrim.scoreUpdated = Date.now();
+    }
+
     if( thisScrim.team1.name === opponentsTeam){
         thisScrim.team1.score++;
     } else {
@@ -260,6 +279,11 @@ if( ENV_VAR == "dev"){
     chatChannels = ["#svenhalo"];
 }
 
+//var chatChannels = ["#norwegiansven"];
+// if (app.get('env') === 'development') {
+//     chatChannels = ["#svenhalo"];
+// }
+
 var options = {
     options: {
         debug: true
@@ -289,6 +313,7 @@ client.on("chat", function(channel, user, message, self) {
     //determing player team and opponent
     var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
+
     var opponentsTeamName, teamNames;
 
     if(currentScrimID !== ""){
@@ -357,6 +382,9 @@ client.on("chat", function(channel, user, message, self) {
                 //
                 var teamsString = getAllTeams();
                 client.say(channel, teamsString);
+                break;
+            case "!playerstats":
+                client.say(channel, "http://prohalostats.com/bot/user/"+justUser+"/");
                 break;
         }
     }

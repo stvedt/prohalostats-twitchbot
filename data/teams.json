@@ -1,7 +1,7 @@
 [
     {
         "name": "EnVyUs",
-        "currentScrim": "s16",
+        "currentScrim": "s17",
         "pastScrims": [
             "s1",
             "s2",
@@ -16,7 +16,8 @@
             "s11",
             "s12",
             "s13",
-            "s15"
+            "s15",
+            "s17"
         ],
         "team": "EnVyUs"
     },
@@ -57,9 +58,10 @@
     },
     {
         "name": "Final Boss",
-        "currentScrim": "s12",
+        "currentScrim": "s17",
         "pastScrims": [
-            "s12"
+            "s12",
+            "s17"
         ],
         "team": "Final Boss"
     },

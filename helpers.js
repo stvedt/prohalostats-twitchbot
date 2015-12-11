@@ -8,5 +8,15 @@ module.exports = {
         var scrim = scrimsData.find(function (res) { return res.id === scrimID; });
         var teamNames = [scrim.team1.name, scrim.team2.name]
         return teamNames;
+    },
+    checkCommandDelay: function(commandLastRan){
+        var timeNow = Date.now();
+        var delay = 1 * (60 * 1000); //time is in miliseconds
+        commandLastRanDelay = commandLastRan + delay;
+        if ( timeNow <= commandLastRanDelay ){
+            return true;
+        } else {
+            return false;
+        }
     }
 };

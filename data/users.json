@@ -68,10 +68,17 @@
     },
     {
         "name": "svenhalo",
-        "team": "",
-        "pastTeams": [],
+        "team": "EnVyUs",
+        "pastTeams": [
+            "EnVyUs"
+        ],
         "xuid": "",
-        "currentScrim": "",
-        "pastScrims": []
+        "currentScrim": "s17",
+        "pastScrims": [
+            {
+                "scrimID": "s17",
+                "team": "EnVyUs"
+            }
+        ]
     }
 ]
