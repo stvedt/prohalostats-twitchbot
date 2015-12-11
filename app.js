@@ -28,12 +28,12 @@ var oauth2 = require('simple-oauth2')({
   clientSecret: TWITCH_APP_KEYS.secret,
   site: 'https://api.twitch.tv/kraken',
   tokenPath: '/oauth2/token',
-  authorizationPath: '/oauth2/authorize?response_type=code'
+  authorizationPath: '/oauth2/authorize'
 });
 
 // Authorization uri definition
 var authorization_uri = oauth2.authCode.authorizeURL({
-  redirect_uri: 'http://localhost:3000/callback',
+  redirect_uri: 'http://localhost:3001/callback',
   scope: 'user_read',
   state: '3(#0/!~'
 });
@@ -46,6 +46,7 @@ app.get('/auth', function (req, res) {
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', function (req, res) {
   var code = req.query.code;
+  console.log( req, res);
   console.log('/callback');
   oauth2.authCode.getToken({
     code: code,
