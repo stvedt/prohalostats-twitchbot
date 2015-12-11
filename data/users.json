@@ -74,6 +74,11 @@
         ],
         "xuid": "",
         "currentScrim": "s17",
-        "pastScrims": []
+        "pastScrims": [
+            {
+                "scrimID": "s17",
+                "team": "EnVyUs"
+            }
+        ]
     }
 ]
