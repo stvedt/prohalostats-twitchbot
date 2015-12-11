@@ -264,7 +264,7 @@ if( ENV_VAR == "dev"){
     chatChannels = ["#svenhalo"];
 }
 
-var chatChannels = ["#norwegiansven"];
+//var chatChannels = ["#norwegiansven"];
 // if (app.get('env') === 'development') {
 //     chatChannels = ["#svenhalo"];
 // }
@@ -367,6 +367,9 @@ client.on("chat", function(channel, user, message, self) {
                 //
                 var teamsString = getAllTeams();
                 client.say(channel, teamsString);
+                break;
+            case "!playerstats":
+                client.say(channel, "http://prohalostats.com/bot/user/"+justUser+"/");
                 break;
         }
     }
