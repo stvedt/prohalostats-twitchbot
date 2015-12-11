@@ -46,8 +46,9 @@ app.get('/auth', function (req, res) {
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', function (req, res) {
   var code = req.query.code;
-  console.log( req, res);
-  console.log('/callback');
+  //console.log('callback:');
+  //console.log(res);
+  
   oauth2.authCode.getToken({
     code: code,
     redirect_uri: 'http://localhost:3001/callback'
@@ -56,6 +57,9 @@ app.get('/callback', function (req, res) {
   function saveToken(error, result) {
     if (error) { console.log('Access Token Error', error.message); }
     token = oauth2.accessToken.create(result);
+    //console.log("token: " + token);
+    console.log(token.token.access_token);
+    res.redirect('/bot/');
   }
 });
 
