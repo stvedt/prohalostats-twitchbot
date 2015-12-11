@@ -1,5 +1,22 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/test');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  // yay!
+  console.log('connection open');
+});
+
+var userSchema = mongoose.Schema({
+    name: String,
+    team: String,
+    pastTeams: Array,
+    xuid: String,
+    currentScrim: String,
+    pastScrims: Array
+});
+
+var User = mongoose.model('User', userSchema);
 
 var express = require('express');
 var path = require('path');
@@ -61,14 +78,16 @@ function updateDataFiles( updatedusersData , updatedTeamsData, updatedScrimsData
 
 function join(channel, user){
     //console.log(channel);
+    return true;
     if(channel == "#norwegiansven"){
         return true;
     }
 }
 
-function newChannel(channel){
-    console.log('new channel');
-    usersData.push({
+function newUser(channel){
+    console.log('new User');
+
+    var user = new User({
         "name": channel,
         "team": "",
         "pastTeams": [],
@@ -76,6 +95,11 @@ function newChannel(channel){
         "currentScrim": "",
         "pastScrims": []
     });
+
+    user.save(function (err, fluffy) {
+        if (err) return console.error(err);
+    });
+    console.log(user);
     updateDataFiles(usersData, teamsData, scrimsData);
     return "New channel created";
 }
@@ -267,7 +291,7 @@ if( ENV_VAR == "dev"){
     chatChannels = ["#svenhalo"];
 }
 
-var chatChannels = ["#norwegiansven"];
+// var chatChannels = ["#norwegiansven"];
 // if (app.get('env') === 'development') {
 //     chatChannels = ["#svenhalo"];
 // }
@@ -292,7 +316,7 @@ client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
 
     if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
-        newChannel(justUser);
+        newUser(justUser);
         return;
     }
 
