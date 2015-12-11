@@ -99,7 +99,7 @@ function newUser(channel){
     user.save(function (err, fluffy) {
         if (err) return console.error(err);
     });
-    console.log(user);
+    //console.log(user);
     updateDataFiles(usersData, teamsData, scrimsData);
     return "New channel created";
 }
@@ -315,15 +315,21 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
     var justUser = channel.substring(1);
 
-    if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
-        newUser(justUser);
-        return;
-    }
+    var user = User.find({ name: justUser }, function (err, user) {
+        //console.log(user);
+    });
 
-    var currentScrimID = usersData.find(function (res) { return res.name === justUser; }).currentScrim;
+    console.log(user);
+
+    // if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
+    //     newUser(justUser);
+    //     return;
+    // }
+
+    var currentScrimID = user.currentScrim;
 
     //determing player team and opponent
-    var teamName = usersData.find(function (res) { return res.name === justUser; }).team;
+    var teamName = user.team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
 
     var opponentsTeamName, teamNames;
