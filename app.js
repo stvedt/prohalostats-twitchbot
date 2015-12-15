@@ -101,7 +101,7 @@ function newUser(channel){
         "pastScrims": []
     });
 
-    user.save(function (err, fluffy) {
+    user.save(function (err, user) {
         if (err) return console.error(err);
     });
     //console.log(user);
@@ -125,7 +125,7 @@ function newTeam(teamName){
 function setTeam(justUser, teamName){
 
     if(teamName == "") {
-        return "Plass enter team name following command. (ex: !setteam Final Boss)";
+        return "Please enter team name following command. (ex: !setteam Final Boss)";
     }
     if(typeof teamsData.find(function (res) { return res.name === teamName; }) == "undefined"){
         var teamName = User.findByName(justUser, function (err, user) {
@@ -146,6 +146,14 @@ function setTeam(justUser, teamName){
         //console.log(teamName)
         //archive old team name
         // usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+
+        User.findOne({ name: justUser }, function (err, user) {
+            if (err) return handleError(err);
+            user.team = teamName;
+            user.save(function (err, res) {
+                if (err) return console.error(err);
+            });
+        })
 
         // //set new name
         // usersData.find(function (res) { return res.name === justUser; }).team = teamName;
@@ -331,76 +339,79 @@ var options = {
 var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
     var justUser = channel.substring(1);
+    var split = message.toLowerCase().split(" ");
 
-    /*var user = new User({
-        "name": justUser,
-        "team": "",
-        "pastTeams": [],
-        "xuid": "",
-        "currentScrim": "",
-        "pastScrims": []
-    });
-
-    user.save(function (err, fluffy) {
-        if (err) return console.error(err);
-    });
-
-    User.findOne({ name: justUser }, function(err, user) {
-        user.team = "Testing 12";
-        user.save(function (err, res) {
-            if (err) return console.error(err);
-        });
-    });
-
-    User.findOne({ name: justUser }, function(err, user) {
-        console.log(user);
-    }); */
-    var thisUser = User.findOne({ name: justUser }, function(err, user) {
-        if (err){
-            return err;
-        }
-        if (user == null){
-            newUser(justUser);
-        }
-    });
-    //console.log( thisUser );
-    //thisUser.team = "Triggers Down";
-
-    // thisUser.save(function (err, res) {
-    //     if (err) return console.error(err);
-    // });
-
-    
-
-    var currentScrimID = thisUser.currentScrim;
-
-    //determing player team and opponent
-    var teamName = thisUser.team;
-    var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
-
-    var opponentsTeamName, teamNames;
-
-    // if(currentScrimID !== ""){
-    //     teamNames = helpers.getTeams(currentScrimID);
-    //     for(i=0; i<=1; i++){
-    //         if (teamNames[i] !== playerTeam){
-    //             opponentsTeamName = teamNames[i];
-    //         }
-    //     }
-    // }
-
-    //mod only:
-    if(user["user-type"] === "mod") {}
-
-        //console.log( user );
-    
     // Make sure the message is not from the bot..
     if (!self) {
-        var split = message.toLowerCase().split(" ");
-        if(usersData.find(function (res) { return res.name === justUser; }).team == "" && split[0] !=="!setteam" && user.username == justUser){
-            client.say(channel, "Team must be set using. !setteam");
-            return;
-        }
+
+        /*var user = new User({
+            "name": justUser,
+            "team": "",
+            "pastTeams": [],
+            "xuid": "",
+            "currentScrim": "",
+            "pastScrims": []
+        });
+
+        user.save(function (err, fluffy) {
+            if (err) return console.error(err);
+        });
+
+        User.findOne({ name: justUser }, function(err, user) {
+            user.team = "Testing 12";
+            user.save(function (err, res) {
+                if (err) return console.error(err);
+            });
+        });
+
+        User.findOne({ name: justUser }, function(err, user) {
+            console.log(user);
+        }); */
+        User.findOne({ name: justUser }, function(err, user) {
+            if (err){
+                return err;
+            }
+            if (user == null){
+                newUser(justUser);
+            }
+
+            console.log(user);
+
+            if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
+                client.say(channel, "Team must be set using. !setteam");
+                return;
+            }
+        });
+        //console.log( thisUser );
+        //thisUser.team = "Triggers Down";
+
+        // thisUser.save(function (err, res) {
+        //     if (err) return console.error(err);
+        // });
+
+        
+
+        // var currentScrimID = thisUser.currentScrim;
+
+        // //determing player team and opponent
+        // var teamName = thisUser.team;
+        // var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
+
+        // var opponentsTeamName, teamNames;
+
+        // if(currentScrimID !== ""){
+        //     teamNames = helpers.getTeams(currentScrimID);
+        //     for(i=0; i<=1; i++){
+        //         if (teamNames[i] !== playerTeam){
+        //             opponentsTeamName = teamNames[i];
+        //         }
+        //     }
+        // }
+
+        //mod only:
+        if(user["user-type"] === "mod") {}
+
+            //console.log( user );
 
         switch (split[0]) {
             case "!commands":
