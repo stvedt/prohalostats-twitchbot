@@ -10,11 +10,16 @@ db.once('open', function (callback) {
 var userSchema = mongoose.Schema({
     name: String,
     team: String,
-    pastTeams: Array,
+    gamertag: String,
+    pastTeams: [String],
     xuid: String,
     currentScrim: String,
-    pastScrims: Array
+    pastScrims: [String]
 });
+
+userSchema.statics.findByName = function (name, cb) {
+  return this.find({ name: new RegExp(name, 'i') }, cb);
+}
 
 var User = mongoose.model('User', userSchema);
 
@@ -123,16 +128,28 @@ function setTeam(justUser, teamName){
         return "Plass enter team name following command. (ex: !setteam Final Boss)";
     }
     if(typeof teamsData.find(function (res) { return res.name === teamName; }) == "undefined"){
-        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+        var teamName = User.findByName(justUser, function (err, user) {
+            console.log(user);
+        });
 
-        newTeam(teamName);
+        console.log(teamName)
+        //usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+
+        //newTeam(teamName);
     } else {
-        //archive old team name
-        usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+        console.log('hi');
 
-        //set new name
-        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
-        teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
+        User.findByName(justUser, function (err, user) {
+            
+        });
+
+        //console.log(teamName)
+        //archive old team name
+        // usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+
+        // //set new name
+        // usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+        // teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
     }
     updateDataFiles(usersData, teamsData, scrimsData);
     return "Team name set to " + teamName;
@@ -315,38 +332,67 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {    
     var justUser = channel.substring(1);
 
-    var user = User.find({ name: justUser }, function (err, user) {
-        //console.log(user);
+    /*var user = new User({
+        "name": justUser,
+        "team": "",
+        "pastTeams": [],
+        "xuid": "",
+        "currentScrim": "",
+        "pastScrims": []
     });
 
-    console.log(user);
+    user.save(function (err, fluffy) {
+        if (err) return console.error(err);
+    });
 
-    // if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
-    //     newUser(justUser);
-    //     return;
-    // }
+    User.findOne({ name: justUser }, function(err, user) {
+        user.team = "Testing 12";
+        user.save(function (err, res) {
+            if (err) return console.error(err);
+        });
+    });
 
-    var currentScrimID = user.currentScrim;
+    User.findOne({ name: justUser }, function(err, user) {
+        console.log(user);
+    }); */
+    var thisUser = User.findOne({ name: justUser }, function(err, user) {
+        if (err){
+            return err;
+        }
+        if (user == null){
+            newUser(justUser);
+        }
+    });
+    //console.log( thisUser );
+    //thisUser.team = "Triggers Down";
+
+    // thisUser.save(function (err, res) {
+    //     if (err) return console.error(err);
+    // });
+
+    
+
+    var currentScrimID = thisUser.currentScrim;
 
     //determing player team and opponent
-    var teamName = user.team;
+    var teamName = thisUser.team;
     var playerTeam = teamsData.find(function (res) { return res.name === teamName; });
 
     var opponentsTeamName, teamNames;
 
-    if(currentScrimID !== ""){
-        teamNames = helpers.getTeams(currentScrimID);
-        for(i=0; i<=1; i++){
-            if (teamNames[i] !== playerTeam){
-                opponentsTeamName = teamNames[i];
-            }
-        }
-    }
+    // if(currentScrimID !== ""){
+    //     teamNames = helpers.getTeams(currentScrimID);
+    //     for(i=0; i<=1; i++){
+    //         if (teamNames[i] !== playerTeam){
+    //             opponentsTeamName = teamNames[i];
+    //         }
+    //     }
+    // }
 
     //mod only:
     if(user["user-type"] === "mod") {}
 
-        console.log( user );
+        //console.log( user );
     
     // Make sure the message is not from the bot..
     if (!self) {

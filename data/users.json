@@ -68,9 +68,10 @@
     },
     {
         "name": "svenhalo",
-        "team": "EnVyUs",
+        "team": "Final Boss",
         "pastTeams": [
-            "EnVyUs"
+            "EnVyUs",
+            "Final Boss"
         ],
         "xuid": "",
         "currentScrim": "s17",
