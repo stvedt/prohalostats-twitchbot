@@ -124,41 +124,38 @@ function newTeam(teamName){
 
 function setTeam(justUser, teamName){
 
+    //get teams data
+        //
+
     if(teamName == "") {
         return "Please enter team name following command. (ex: !setteam Final Boss)";
     }
     if(typeof teamsData.find(function (res) { return res.name === teamName; }) == "undefined"){
-        var teamName = User.findByName(justUser, function (err, user) {
-            console.log(user);
-        });
-
-        console.log(teamName)
+        console.log('team doesnt exist');
         //usersData.find(function (res) { return res.name === justUser; }).team = teamName;
 
-        //newTeam(teamName);
+        newTeam(teamName);
     } else {
-        console.log('hi');
-
-        User.findByName(justUser, function (err, user) {
-            
-        });
+        console.log('team exists');
 
         //console.log(teamName)
         //archive old team name
-        // usersData.find(function (res) { return res.name === justUser; }).pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+        // user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
 
-        User.findOne({ name: justUser }, function (err, user) {
-            if (err) return handleError(err);
-            user.team = teamName;
-            user.save(function (err, res) {
-                if (err) return console.error(err);
-            });
-        })
+        
 
         // //set new name
         // usersData.find(function (res) { return res.name === justUser; }).team = teamName;
         // teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
     }
+
+    User.findOne({ name: justUser }, function (err, user) {
+        if (err) return handleError(err);
+        user.team = teamName;
+        user.save(function (err, res) {
+            if (err) return console.error(err);
+        });
+    });
     updateDataFiles(usersData, teamsData, scrimsData);
     return "Team name set to " + teamName;
 
@@ -166,7 +163,14 @@ function setTeam(justUser, teamName){
 
 function newScrim( user, team1, team2){
     var newScrimID = 's' + (scrimsData.length+1);
-    usersData.find(function (res) { return res.name === user; }).currentScrim = newScrimID;
+    User.findOne({ name: justUser }, function (err, user) {
+        if (err) return handleError(err);
+        user.currentScrim = newScrimID;
+        user.save(function (err, res) {
+            if (err) return console.error(err);
+        });
+    });
+    //usersData.find(function (res) { return res.name === user; }).currentScrim = newScrimID;
     teamsData.find(function (res) { return res.name === team1; }).currentScrim = newScrimID;
     if(typeof teamsData.find(function (res) { return res.name === team2; }) == "undefined"){
         newTeam(team2);
@@ -201,7 +205,16 @@ function finishScrim(scrimID, usersTeam, opponentsTeam, usersName){
     var thisScrim = scrimsData.find(function (res) { return res.id === scrimID; });
 
     if( thisScrim.completed === false ){
-        usersData.find(function (res) { return res.name === usersName; }).pastScrims.push({"scrimID":scrimID, "team":usersTeam });
+
+        User.findOne({ name: justUser }, function (err, user) {
+            if (err) return handleError(err);
+            user.pastScrims.push({"scrimID":scrimID, "team":usersTeam });
+            user.save(function (err, res) {
+                if (err) return console.error(err);
+            });
+        });
+
+        //usersData.find(function (res) { return res.name === usersName; }).pastScrims.push({"scrimID":scrimID, "team":usersTeam });
         teamsData.find(function (res) { return res.name === usersTeam; }).pastScrims.push(""+scrimID);
         teamsData.find(function (res) { return res.name === opponentsTeam; }).pastScrims.push(""+scrimID);
         thisScrim.completed = true;
@@ -374,8 +387,6 @@ client.on("chat", function(channel, user, message, self) {
             if (user == null){
                 newUser(justUser);
             }
-
-            console.log(user);
 
             if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
                 client.say(channel, "Team must be set using. !setteam");
