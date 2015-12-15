@@ -393,14 +393,6 @@ client.on("chat", function(channel, user, message, self) {
                 return;
             }
         });
-        //console.log( thisUser );
-        //thisUser.team = "Triggers Down";
-
-        // thisUser.save(function (err, res) {
-        //     if (err) return console.error(err);
-        // });
-
-        
 
         // var currentScrimID = thisUser.currentScrim;
 
@@ -421,8 +413,6 @@ client.on("chat", function(channel, user, message, self) {
 
         //mod only:
         if(user["user-type"] === "mod") {}
-
-            //console.log( user );
 
         switch (split[0]) {
             case "!commands":
