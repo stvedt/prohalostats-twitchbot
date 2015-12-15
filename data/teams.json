@@ -82,5 +82,10 @@
         "name": "Test12",
         "currentScrim": "s16",
         "pastScrims": []
+    },
+    {
+        "name": "test 13",
+        "currentScrim": "",
+        "pastScrims": []
     }
 ]
