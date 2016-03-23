@@ -5,3 +5,4 @@ Node app to track current scrims and creates a view to be easily embedded in a t
 Setup
     
     npm install .
+    npm start
