@@ -139,14 +139,14 @@ function setTeam(justUser, teamName){
         console.log('team exists');
 
         //console.log(teamName)
-        //archive old team name
-        // user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+        // archive old team name
+        user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
 
         
 
-        // //set new name
-        // usersData.find(function (res) { return res.name === justUser; }).team = teamName;
-        // teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
+        //set new name
+        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+        teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
     }
 
     User.findOne({ name: justUser }, function (err, user) {
@@ -414,6 +414,10 @@ client.on("chat", function(channel, user, message, self) {
         //mod only:
         if(user["user-type"] === "mod") {}
 
+        // if(justUser === user.name){
+
+        // }
+
         switch (split[0]) {
             case "!commands":
                 client.say(channel, "http://prohalostats.com/bot/");
@@ -441,11 +445,13 @@ client.on("chat", function(channel, user, message, self) {
                 break;
             case "!newseries":
                 //
+                userQuery();
                 var newOpponentName = message.substring(11);
                 var result = newScrim( justUser, teamName, newOpponentName);
                 client.say(channel, result);
                 break;
             case "!finishseries":
+                userQuery();
                 var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justUser);
                 client.say(channel, finishString);
                 break;
