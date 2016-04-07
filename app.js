@@ -17,11 +17,34 @@ var userSchema = mongoose.Schema({
     pastScrims: [String]
 });
 
+var teamSchema = mongoose.Schema({
+    "name":String,
+    "currentScrim": String,
+    "pastScrims": [String]
+});
+
+var scrimSchema = mongoose.Schema({
+    "id": String,
+    "team1": {
+        "name": String,
+        "score": Number
+    },
+    "team2": {
+        "name": String,
+        "score": Number
+    },
+    "matches": [String],
+    "completed": Boolean,
+    "scoreUpdated": Number
+});
+
 userSchema.statics.findByName = function (name, cb) {
   return this.find({ name: new RegExp(name, 'i') }, cb);
 }
 
 var User = mongoose.model('User', userSchema);
+var Team = mongoose.model('Team', teamSchema);
+var Scrim = mongoose.model('Scrim', scrimSchema);
 
 var express = require('express');
 var path = require('path');
@@ -164,7 +187,18 @@ function newTeam(teamName){
         "name":teamName,
         "currentScrim": "",
         "pastScrims": []
+     });
+
+     var team = new Team({
+         "name":teamName,
+         "currentScrim": "",
+         "pastScrims": []
     });
+
+    team.save(function (err, user) {
+        if (err) return console.error(err);
+    });
+
     updateDataFiles(usersData, teamsData, scrimsData);
 
     return "Team " +teamName + " created";
