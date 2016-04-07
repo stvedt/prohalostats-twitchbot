@@ -45,11 +45,60 @@ var helpers = require('./helpers.js');
 var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
+// OAUTH MANUAL TRY
+var TWITCH_APP_KEYS= require('./keys/twitch-app');
+
+var oauth2 = require('simple-oauth2')({
+  clientID: TWITCH_APP_KEYS.client,
+  clientSecret: TWITCH_APP_KEYS.secret,
+  site: 'https://api.twitch.tv/kraken',
+  tokenPath: '/oauth2/token',
+  authorizationPath: '/oauth2/authorize'
+});
+
+// Authorization uri definition
+var authorization_uri = oauth2.authCode.authorizeURL({
+  redirect_uri: 'http://localhost:3001/callback',
+  scope: 'user_read',
+  state: '3(#0/!~'
+});
+
+// Initial page redirecting to Github
+app.get('/auth', function (req, res) {
+    res.redirect(authorization_uri);
+});
+
+// Callback service parsing the authorization token and asking for the access token
+app.get('/callback', function (req, res) {
+  var code = req.query.code;
+  //console.log('callback:');
+  //console.log(res);
+
+  oauth2.authCode.getToken({
+    code: code,
+    redirect_uri: 'http://localhost:3001/callback'
+  }, saveToken);
+
+  function saveToken(error, result) {
+    if (error) { console.log('Access Token Error', error.message); }
+    token = oauth2.accessToken.create(result);
+    //console.log("token: " + token);
+    //console.log('token: ' + token.token.access_token);
+    res.redirect('/bot/');
+  }
+});
+
+app.get('/login', function (req, res) {
+  res.send('Hello<br><a href="/auth">Log in with Github</a>');
+});
+
+
+
 //Twitch Login Auth
 var TWITCH_APP_KEYS= require('./keys/twitch-app');
 var passport       = require("passport");
 var twitchStrategy = require("passport-twitch").Strategy;
- 
+
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
@@ -66,7 +115,7 @@ passport.use(new twitchStrategy({
 
 app.get("/bot/auth/twitch", passport.authenticate("twitch"));
 app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
-    // Successful authentication, redirect home. 
+    // Successful authentication, redirect home.
     res.redirect("/bot/");
 });
 
@@ -142,7 +191,7 @@ function setTeam(justUser, teamName){
         // archive old team name
         user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
 
-        
+
 
         //set new name
         usersData.find(function (res) { return res.name === justUser; }).team = teamName;
@@ -350,7 +399,7 @@ var options = {
 };
 
 var client = new irc.client(options);
-client.on("chat", function(channel, user, message, self) {    
+client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
     var split = message.toLowerCase().split(" ");
 
