@@ -201,36 +201,42 @@ function newTeam(teamName){
 
     updateDataFiles(usersData, teamsData, scrimsData);
 
-    return "Team " +teamName + " created";
+    return "Team " + teamName + " created";
 
 }
 
 function setTeam(justUser, teamName){
-
-    //get teams data
-        //
-
+    //check if teamName is passed through
+    var msg
     if(teamName == "") {
         return "Please enter team name following command. (ex: !setteam Final Boss)";
     }
-    if(typeof teamsData.find(function (res) { return res.name === teamName; }) == "undefined"){
-        console.log('team doesnt exist');
-        //usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+    //get team data
+    Team.findOne({ name: teamName }, function(err, team) {
+        if (err){
+            return err;
+        }
+        if (team == null){
+            console.log('team doesnt exist. Create New Team');
+            newTeam(teamName);
+        } else {
+            console.log('team does exist');
 
-        newTeam(teamName);
-    } else {
-        console.log('team exists');
+            //console.log(teamName)
+            // archive old team name
+            //user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
 
-        //console.log(teamName)
-        // archive old team name
-        user.pastTeams.push(teamsData.find(function (res) { return res.name === teamName; }).team);
+            //set new name
+            //usersData.find(function (res) { return res.name === justUser; }).team = teamName;
+            //teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
 
-
-
-        //set new name
-        usersData.find(function (res) { return res.name === justUser; }).team = teamName;
-        teamsData.find(function (res) { return res.name === teamName; }).team = teamName;
-    }
+        }
+        console.log("teamData: " + team);
+        //  if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
+        //      client.say(channel, "Team must be set using. !setteam");
+        //      return;
+        //  }
+    });
 
     User.findOne({ name: justUser }, function (err, user) {
         if (err) return handleError(err);
@@ -436,6 +442,7 @@ var client = new irc.client(options);
 client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
     var split = message.toLowerCase().split(" ");
+    console.log(justUser);
 
     // Make sure the message is not from the bot..
     if (!self) {
@@ -470,11 +477,11 @@ client.on("chat", function(channel, user, message, self) {
             if (user == null){
                 newUser(justUser);
             }
-
-            if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
-                client.say(channel, "Team must be set using. !setteam");
-                return;
-            }
+            console.log(user);
+             if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
+                 client.say(channel, "Team must be set using. !setteam");
+                 return;
+             }
         });
 
         // var currentScrimID = thisUser.currentScrim;
