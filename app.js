@@ -48,7 +48,7 @@ app.get('/callback', function (req, res) {
   var code = req.query.code;
   //console.log('callback:');
   //console.log(res);
-  
+
   oauth2.authCode.getToken({
     code: code,
     redirect_uri: 'http://localhost:3001/callback'
@@ -58,7 +58,7 @@ app.get('/callback', function (req, res) {
     if (error) { console.log('Access Token Error', error.message); }
     token = oauth2.accessToken.create(result);
     //console.log("token: " + token);
-    console.log(token.token.access_token);
+    //console.log('token: ' + token.token.access_token);
     res.redirect('/bot/');
   }
 });
@@ -73,7 +73,7 @@ app.get('/login', function (req, res) {
 var TWITCH_APP_KEYS= require('./keys/twitch-app');
 var passport       = require("passport");
 var twitchStrategy = require("passport-twitch").Strategy;
- 
+
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
@@ -90,7 +90,7 @@ passport.use(new twitchStrategy({
 
 app.get("/bot/auth/twitch", passport.authenticate("twitch"));
 app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
-    // Successful authentication, redirect home. 
+    // Successful authentication, redirect home.
     res.redirect("/bot/");
 });
 
@@ -334,7 +334,7 @@ var options = {
 };
 
 var client = new irc.client(options);
-client.on("chat", function(channel, user, message, self) {    
+client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
 
     if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
@@ -362,8 +362,8 @@ client.on("chat", function(channel, user, message, self) {
     //mod only:
     if(user["user-type"] === "mod") {}
 
-        console.log( user );
-    
+        console.log( 'user' + user );
+
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
