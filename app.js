@@ -415,7 +415,7 @@ var irc = require("tmi.js");
 var chatChannels = ["#norwegiansven"];
 
 if( ENV_VAR == "dev"){
-    chatChannels = ["#svenhalo"];
+    chatChannels = ["#svenhalo","zergedu"];
 }
 
 // var chatChannels = ["#norwegiansven"];
@@ -439,6 +439,8 @@ var options = {
 };
 
 var client = new irc.client(options);
+
+// ON CHAT
 client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
     var split = message.toLowerCase().split(" ");
@@ -470,6 +472,8 @@ client.on("chat", function(channel, user, message, self) {
         User.findOne({ name: justUser }, function(err, user) {
             console.log(user);
         }); */
+
+        var thisUser;
         User.findOne({ name: justUser }, function(err, user) {
             if (err){
                 return err;
@@ -478,12 +482,14 @@ client.on("chat", function(channel, user, message, self) {
                 newUser(justUser);
             }
             console.log(user);
+            thisUser = user;
              if(user.team == "" && split[0] !=="!setteam" && user.name == justUser){
                  client.say(channel, "Team must be set using. !setteam");
                  return;
              }
         });
 
+        console.log(thisUser.name);
         // var currentScrimID = thisUser.currentScrim;
 
         // //determing player team and opponent
@@ -534,21 +540,22 @@ client.on("chat", function(channel, user, message, self) {
                 client.say(channel, result);
                 break;
             case "!newseries":
-                //
-                userQuery();
+                //userQuery();
                 var newOpponentName = message.substring(11);
                 var result = newScrim( justUser, teamName, newOpponentName);
                 client.say(channel, result);
                 break;
             case "!finishseries":
-                userQuery();
+                //userQuery();
                 var finishString = finishScrim(currentScrimID, teamName, opponentsTeamName, justUser);
                 client.say(channel, finishString);
                 break;
             case "!score":
                 //
-                var scoreString = getScore(currentScrimID, teamName, opponentsTeamName);
-                client.say(channel, scoreString);
+                if(typeof currentScrimID !== "undefined" ){
+                    var scoreString = getScore(currentScrimID, teamName, opponentsTeamName);
+                    client.say(channel, scoreString);
+                }
                 break;
             case "!getteams":
                 //
