@@ -20,6 +20,55 @@ var helpers = require('./helpers.js');
 var app = express();
 app.locals.siteTile = "Pro Halo Stats";
 
+// OAUTH MANUAL TRY
+var TWITCH_APP_KEYS= require('./keys/twitch-app');
+
+var oauth2 = require('simple-oauth2')({
+  clientID: TWITCH_APP_KEYS.client,
+  clientSecret: TWITCH_APP_KEYS.secret,
+  site: 'https://api.twitch.tv/kraken',
+  tokenPath: '/oauth2/token',
+  authorizationPath: '/oauth2/authorize'
+});
+
+// Authorization uri definition
+var authorization_uri = oauth2.authCode.authorizeURL({
+  redirect_uri: 'http://localhost:3001/callback',
+  scope: 'user_read',
+  state: '3(#0/!~'
+});
+
+// Initial page redirecting to Github
+app.get('/auth', function (req, res) {
+    res.redirect(authorization_uri);
+});
+
+// Callback service parsing the authorization token and asking for the access token
+app.get('/callback', function (req, res) {
+  var code = req.query.code;
+  //console.log('callback:');
+  //console.log(res);
+
+  oauth2.authCode.getToken({
+    code: code,
+    redirect_uri: 'http://localhost:3001/callback'
+  }, saveToken);
+
+  function saveToken(error, result) {
+    if (error) { console.log('Access Token Error', error.message); }
+    token = oauth2.accessToken.create(result);
+    //console.log("token: " + token);
+    //console.log('token: ' + token.token.access_token);
+    res.redirect('/bot/');
+  }
+});
+
+app.get('/login', function (req, res) {
+  res.send('Hello<br><a href="/auth">Log in with Github</a>');
+});
+
+
+
 //Twitch Login Auth
 var TWITCH_APP_KEYS= require('./keys/twitch-app');
 var passport       = require("passport");
@@ -30,11 +79,11 @@ var twitchStrategy = require("passport-twitchtv").Strategy;
 passport.serializeUser(function(user, done) {
     done(null, user);
 });
- 
+
 passport.deserializeUser(function(user, done) {
     done(null, user);
 });
- 
+
 passport.use(new twitchStrategy({
     clientID: TWITCH_APP_KEYS.client,
     clientSecret: TWITCH_APP_KEYS.secret,
@@ -55,7 +104,13 @@ app.use('/auth/',function(req, res, next){
 });
 app.get("/bot/auth/twitch", passport.authenticate("twitchtv"));
 app.get("/bot/auth/twitch/callback", passport.authenticate("twitchtv", { failureRedirect: "/bot/" }), function(req, res) {
-    // Successful authentication, redirect home. 
+    // Successful authentication, redirect home.
+// =======
+//
+// app.get("/bot/auth/twitch", passport.authenticate("twitch"));
+// app.get("/bot/auth/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/bot/" }), function(req, res) {
+//     // Successful authentication, redirect home.
+// >>>>>>> origin/master
     res.redirect("/bot/");
 });
 
@@ -300,7 +355,7 @@ var options = {
 };
 
 var client = new irc.client(options);
-client.on("chat", function(channel, user, message, self) {    
+client.on("chat", function(channel, user, message, self) {
     var justUser = channel.substring(1);
 
     if(typeof usersData.find(function (res) { return res.name === justUser; }) == "undefined"){
@@ -328,8 +383,8 @@ client.on("chat", function(channel, user, message, self) {
     //mod only:
     if(user["user-type"] === "mod") {}
 
-        console.log( user );
-    
+        console.log( 'user' + user );
+
     // Make sure the message is not from the bot..
     if (!self) {
         var split = message.toLowerCase().split(" ");
